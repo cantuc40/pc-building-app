@@ -2,6 +2,21 @@
 #
 # https://gqlgen.com/getting-started/
 
+
+#Mutation Schema
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+}
+
+#Query Schema
+type Query {
+  todos: [Todo!]!
+  users: [User!]!
+  parts: [Parts!]!
+}
+
+
+#Object Schemas
 type Todo {
   id: ID!
   text: String!
@@ -11,21 +26,139 @@ type Todo {
 
 type User {
   id: ID!
+  username: String!
+  password: String!
+  email: String!
+  pcs: [PC!]
+}
+type PC {
   name: String!
+  id: ID!
+  motherboard: Motherboard!
+  cpu: CPU!
+  ram: Memory!
+  storage: Storage!
+  powersupplie: PowerSupply!
+  graphic_card: GraphicsCard!
+  case: Case!
+  monitor: Monitor!
+  operating_system: OperatingSystem!
+  cost: Int!
+
 }
 
-type Query {
-  todos: [Todo!]!
+
+type Parts {
+  motherboards: [Motherboard!]
+  cpus: [CPU!]
+  rams: [Memory!]
+  storages: [Storage!]
+  powersupplies: [PowerSupply!]
+  graphic_cards: [GraphicsCard!]
+  cases: [Case!]
+  monitors: [Monitor!]
+  operating_systems: [OperatingSystem!]
+
 }
 
+
+type Motherboard {
+  name: String!
+  id: ID!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+}
+
+type CPU {
+  name: String!
+  id: ID!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+}
+
+type Storage {
+  name: String!
+  id: ID!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+}
+
+type Memory {
+  name: String!
+  id: ID!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+}
+
+type PowerSupply {
+  name: String!
+  id: ID!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+
+type GraphicsCard {
+  name: String!
+  id: ID!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+
+type Case {
+  name: String!
+  id: ID!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+}
+
+type Monitor {
+  name: String!
+  id: ID!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+
+type OperatingSystem {
+  name: String!
+  id: ID!
+  company: String
+  price: Int!
+}
+
+#Inputs
 input NewTodo {
   text: String!
   userId: String!
 }
 
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
-}
+
+
+
 
 
 
