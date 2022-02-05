@@ -97,6 +97,7 @@ type Motherboard  {
   internal_ports: Int!
   external_ports: Int!
   price: Float!
+  users: [User!]
 }
 
 type CPU {
@@ -107,6 +108,7 @@ type CPU {
   clockspeed: String!
   sockets: Int!
   price: Float!
+  users: [User!]
 }
 
 type Storage {
@@ -117,6 +119,7 @@ type Storage {
   capacity: String!
   speed: String!
   price: Float!
+  users: [User!]
 }
 
 type Memory {
@@ -127,6 +130,7 @@ type Memory {
   cas_latency: String!
   memory_channels: String!
   price: Float!
+  users: [User!]
 }
 
 type PowerSupply {
@@ -136,6 +140,7 @@ type PowerSupply {
   form_factor: String!
   modularity: String!
   price: Float!
+  users: [User!]
 }
 
 type GraphicsCard {
@@ -146,6 +151,7 @@ type GraphicsCard {
   memory: Int!
   core_clock: String!
   price: Float!
+  users: [User!]
 }
 
 type Case {
@@ -155,6 +161,7 @@ type Case {
   windowed: Boolean
   material: String!
   price: Float!
+  users: [User!]
 }
 
 type Monitor {
@@ -164,6 +171,7 @@ type Monitor {
   resolution: String!
   hz: Int!
   price: Float!
+  users: [User!]
 }
 
 type OperatingSystem {
@@ -171,6 +179,7 @@ type OperatingSystem {
   id: ID!
   company: String
   price: Int!
+  users: [User!]
 }
 
 #Inputs

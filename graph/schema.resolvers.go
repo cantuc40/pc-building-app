@@ -37,43 +37,43 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 func (r *queryResolver) PartsDb(ctx context.Context) (*model.PartsDb, error) {
-	panic(fmt.Errorf("not implemented"))
+	return &r.parts, nil
 }
 
 func (r *queryResolver) Motherboard(ctx context.Context) ([]*model.Motherboard, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Motherboards, nil
 }
 
 func (r *queryResolver) Cpus(ctx context.Context) ([]*model.CPU, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Cpus, nil
 }
 
 func (r *queryResolver) Storages(ctx context.Context) ([]*model.Storage, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Storages, nil
 }
 
 func (r *queryResolver) Memories(ctx context.Context) ([]*model.Memory, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Rams, nil
 }
 
 func (r *queryResolver) PowerSupplies(ctx context.Context) ([]*model.PowerSupply, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Powersupplies, nil
 }
 
 func (r *queryResolver) GraphicsCards(ctx context.Context) ([]*model.GraphicsCard, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.GraphicCards, nil
 }
 
 func (r *queryResolver) Cases(ctx context.Context) ([]*model.Case, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Cases, nil
 }
 
 func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.Monitors, nil
 }
 
 func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.parts.OperatingSystems, nil
 }
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {

@@ -52,6 +52,7 @@ type ComplexityRoot struct {
 		Name       func(childComplexity int) int
 		Price      func(childComplexity int) int
 		Sockets    func(childComplexity int) int
+		Users      func(childComplexity int) int
 	}
 
 	Case struct {
@@ -60,6 +61,7 @@ type ComplexityRoot struct {
 		Material func(childComplexity int) int
 		Name     func(childComplexity int) int
 		Price    func(childComplexity int) int
+		Users    func(childComplexity int) int
 		Windowed func(childComplexity int) int
 	}
 
@@ -71,6 +73,7 @@ type ComplexityRoot struct {
 		Memory    func(childComplexity int) int
 		Name      func(childComplexity int) int
 		Price     func(childComplexity int) int
+		Users     func(childComplexity int) int
 	}
 
 	Memory struct {
@@ -81,6 +84,7 @@ type ComplexityRoot struct {
 		MemoryChannels func(childComplexity int) int
 		Name           func(childComplexity int) int
 		Price          func(childComplexity int) int
+		Users          func(childComplexity int) int
 	}
 
 	Monitor struct {
@@ -90,6 +94,7 @@ type ComplexityRoot struct {
 		Name       func(childComplexity int) int
 		Price      func(childComplexity int) int
 		Resolution func(childComplexity int) int
+		Users      func(childComplexity int) int
 	}
 
 	Motherboard struct {
@@ -104,6 +109,7 @@ type ComplexityRoot struct {
 		Price         func(childComplexity int) int
 		RAMSlots      func(childComplexity int) int
 		Sockets       func(childComplexity int) int
+		Users         func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -116,6 +122,7 @@ type ComplexityRoot struct {
 		ID      func(childComplexity int) int
 		Name    func(childComplexity int) int
 		Price   func(childComplexity int) int
+		Users   func(childComplexity int) int
 	}
 
 	PC struct {
@@ -159,6 +166,7 @@ type ComplexityRoot struct {
 		Modularity func(childComplexity int) int
 		Name       func(childComplexity int) int
 		Price      func(childComplexity int) int
+		Users      func(childComplexity int) int
 	}
 
 	Query struct {
@@ -184,6 +192,7 @@ type ComplexityRoot struct {
 		Name     func(childComplexity int) int
 		Price    func(childComplexity int) int
 		Speed    func(childComplexity int) int
+		Users    func(childComplexity int) int
 	}
 
 	Todo struct {
@@ -288,6 +297,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.CPU.Sockets(childComplexity), true
 
+	case "CPU.users":
+		if e.complexity.CPU.Users == nil {
+			break
+		}
+
+		return e.complexity.CPU.Users(childComplexity), true
+
 	case "Case.company":
 		if e.complexity.Case.Company == nil {
 			break
@@ -322,6 +338,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Case.Price(childComplexity), true
+
+	case "Case.users":
+		if e.complexity.Case.Users == nil {
+			break
+		}
+
+		return e.complexity.Case.Users(childComplexity), true
 
 	case "Case.windowed":
 		if e.complexity.Case.Windowed == nil {
@@ -379,6 +402,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.GraphicsCard.Price(childComplexity), true
 
+	case "GraphicsCard.users":
+		if e.complexity.GraphicsCard.Users == nil {
+			break
+		}
+
+		return e.complexity.GraphicsCard.Users(childComplexity), true
+
 	case "Memory.cas_latency":
 		if e.complexity.Memory.CasLatency == nil {
 			break
@@ -428,6 +458,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Memory.Price(childComplexity), true
 
+	case "Memory.users":
+		if e.complexity.Memory.Users == nil {
+			break
+		}
+
+		return e.complexity.Memory.Users(childComplexity), true
+
 	case "Monitor.company":
 		if e.complexity.Monitor.Company == nil {
 			break
@@ -469,6 +506,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Monitor.Resolution(childComplexity), true
+
+	case "Monitor.users":
+		if e.complexity.Monitor.Users == nil {
+			break
+		}
+
+		return e.complexity.Monitor.Users(childComplexity), true
 
 	case "Motherboard.chipsets":
 		if e.complexity.Motherboard.Chipsets == nil {
@@ -547,6 +591,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Motherboard.Sockets(childComplexity), true
 
+	case "Motherboard.users":
+		if e.complexity.Motherboard.Users == nil {
+			break
+		}
+
+		return e.complexity.Motherboard.Users(childComplexity), true
+
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -598,6 +649,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.OperatingSystem.Price(childComplexity), true
+
+	case "OperatingSystem.users":
+		if e.complexity.OperatingSystem.Users == nil {
+			break
+		}
+
+		return e.complexity.OperatingSystem.Users(childComplexity), true
 
 	case "PC.cpu":
 		if e.complexity.PC.CPU == nil {
@@ -816,6 +874,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PowerSupply.Price(childComplexity), true
 
+	case "PowerSupply.users":
+		if e.complexity.PowerSupply.Users == nil {
+			break
+		}
+
+		return e.complexity.PowerSupply.Users(childComplexity), true
+
 	case "Query.cases":
 		if e.complexity.Query.Cases == nil {
 			break
@@ -948,6 +1013,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Storage.Speed(childComplexity), true
+
+	case "Storage.users":
+		if e.complexity.Storage.Users == nil {
+			break
+		}
+
+		return e.complexity.Storage.Users(childComplexity), true
 
 	case "Todo.done":
 		if e.complexity.Todo.Done == nil {
@@ -1175,6 +1247,7 @@ type Motherboard  {
   internal_ports: Int!
   external_ports: Int!
   price: Float!
+  users: [User!]
 }
 
 type CPU {
@@ -1185,6 +1258,7 @@ type CPU {
   clockspeed: String!
   sockets: Int!
   price: Float!
+  users: [User!]
 }
 
 type Storage {
@@ -1195,6 +1269,7 @@ type Storage {
   capacity: String!
   speed: String!
   price: Float!
+  users: [User!]
 }
 
 type Memory {
@@ -1205,6 +1280,7 @@ type Memory {
   cas_latency: String!
   memory_channels: String!
   price: Float!
+  users: [User!]
 }
 
 type PowerSupply {
@@ -1214,6 +1290,7 @@ type PowerSupply {
   form_factor: String!
   modularity: String!
   price: Float!
+  users: [User!]
 }
 
 type GraphicsCard {
@@ -1224,6 +1301,7 @@ type GraphicsCard {
   memory: Int!
   core_clock: String!
   price: Float!
+  users: [User!]
 }
 
 type Case {
@@ -1233,6 +1311,7 @@ type Case {
   windowed: Boolean
   material: String!
   price: Float!
+  users: [User!]
 }
 
 type Monitor {
@@ -1242,6 +1321,7 @@ type Monitor {
   resolution: String!
   hz: Int!
   price: Float!
+  users: [User!]
 }
 
 type OperatingSystem {
@@ -1249,6 +1329,7 @@ type OperatingSystem {
   id: ID!
   company: String
   price: Int!
+  users: [User!]
 }
 
 #Inputs
@@ -1607,6 +1688,38 @@ func (ec *executionContext) _CPU_price(ctx context.Context, field graphql.Collec
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _CPU_users(ctx context.Context, field graphql.CollectedField, obj *model.CPU) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "CPU",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Case_name(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -1809,6 +1922,38 @@ func (ec *executionContext) _Case_price(ctx context.Context, field graphql.Colle
 	res := resTmp.(float64)
 	fc.Result = res
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Case_users(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Case",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GraphicsCard_name(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
@@ -2053,6 +2198,38 @@ func (ec *executionContext) _GraphicsCard_price(ctx context.Context, field graph
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _GraphicsCard_users(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GraphicsCard",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Memory_name(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2295,6 +2472,38 @@ func (ec *executionContext) _Memory_price(ctx context.Context, field graphql.Col
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Memory_users(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Memory",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Monitor_name(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2500,6 +2709,38 @@ func (ec *executionContext) _Monitor_price(ctx context.Context, field graphql.Co
 	res := resTmp.(float64)
 	fc.Result = res
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Monitor_users(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Monitor",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Motherboard_name(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
@@ -2884,6 +3125,38 @@ func (ec *executionContext) _Motherboard_price(ctx context.Context, field graphq
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Motherboard_users(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Motherboard",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3103,6 +3376,38 @@ func (ec *executionContext) _OperatingSystem_price(ctx context.Context, field gr
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _OperatingSystem_users(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "OperatingSystem",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PC_name(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
@@ -4160,6 +4465,38 @@ func (ec *executionContext) _PowerSupply_price(ctx context.Context, field graphq
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _PowerSupply_users(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "PowerSupply",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4891,6 +5228,38 @@ func (ec *executionContext) _Storage_price(ctx context.Context, field graphql.Co
 	res := resTmp.(float64)
 	fc.Result = res
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Storage_users(ctx context.Context, field graphql.CollectedField, obj *model.Storage) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Storage",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Users, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
@@ -6513,6 +6882,13 @@ func (ec *executionContext) _CPU(ctx context.Context, sel ast.SelectionSet, obj 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._CPU_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6588,6 +6964,13 @@ func (ec *executionContext) _Case(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Case_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6676,6 +7059,13 @@ func (ec *executionContext) _GraphicsCard(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._GraphicsCard_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6764,6 +7154,13 @@ func (ec *executionContext) _Memory(ctx context.Context, sel ast.SelectionSet, o
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Memory_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6842,6 +7239,13 @@ func (ec *executionContext) _Monitor(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Monitor_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6970,6 +7374,13 @@ func (ec *executionContext) _Motherboard(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Motherboard_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7078,6 +7489,13 @@ func (ec *executionContext) _OperatingSystem(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._OperatingSystem_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7442,6 +7860,13 @@ func (ec *executionContext) _PowerSupply(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._PowerSupply_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7850,6 +8275,13 @@ func (ec *executionContext) _Storage(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "users":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Storage_users(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -9884,6 +10316,53 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) marshalOUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

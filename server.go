@@ -11,7 +11,6 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph"
 	"github.com/cantuc40/gqlgen-todos/graph/generated"
 	"github.com/cantuc40/gqlgen-todos/graph/model"
-	"github.com/pc-building-app/graph/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -59,9 +58,9 @@ func main() {
 		port = defaultPort
 	}
 
-	initDB()
+	//initDB()
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
-		DB: db,
+		//DB: db,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
