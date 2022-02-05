@@ -6,6 +6,7 @@
 #Mutation Schema
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+  createUser(input: NewUser!): User!
 }
 
 #Query Schema
@@ -13,6 +14,7 @@ type Query {
   todos: [Todo!]!
   users: [User!]!
   parts: [Parts!]!
+  #user(id: ID!): User
 }
 
 
@@ -154,6 +156,13 @@ type OperatingSystem {
 input NewTodo {
   text: String!
   userId: String!
+}
+
+input NewUser {
+  id: ID!
+  username: String!
+  password: String!
+  email: String!
 }
 
 

@@ -9,4 +9,6 @@ import "github.com/cantuc40/gqlgen-todos/graph/model"
 
 type Resolver struct {
 	todos []*model.Todo
+	users []*model.User
+	parts []*model.Parts
 }
