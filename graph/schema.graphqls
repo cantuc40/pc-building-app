@@ -5,16 +5,30 @@
 
 #Mutation Schema
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+
+  #POST
+  #createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
+  RemoveUser(input: ID!): User! 
 }
 
 #Query Schema
 type Query {
   todos: [Todo!]!
   users: [User!]!
-  parts: [Parts!]!
-  user(id: ID!): User!
+  parts_db: Parts_DB!
+  motherboard: [Motherboard!]!
+  cpus: [CPU!]!
+  storages: [Storage!]!
+  memories: [Memory!]!
+  power_supplies: [PowerSupply!]!
+  graphics_cards: [GraphicsCard!]!
+  cases: [Case!]!
+  monitors: [Monitor!]!
+  operating_systems: [OperatingSystem!]!
+
+
+  #users(id: ID!): User!
 }
 
 
@@ -33,6 +47,7 @@ type User {
   email: String!
   pcs: [PC!]
 }
+
 type PC {
   name: String!
   id: ID!
@@ -50,7 +65,7 @@ type PC {
 }
 
 
-type Parts {
+type Parts_DB {
   motherboards: [Motherboard!]
   cpus: [CPU!]
   rams: [Memory!]
@@ -63,8 +78,14 @@ type Parts {
 
 }
 
+type Part {
+  name: String!
+  id: ID!
+  company: String!
+  price: Float!
+}
 
-type Motherboard {
+type Motherboard  {
   name: String!
   id: ID!
   company: String
@@ -163,6 +184,10 @@ input NewUser {
   username: String!
   password: String!
   email: String!
+}
+
+input DeleteUser {
+  id: ID!
 }
 
 

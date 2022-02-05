@@ -12,18 +12,6 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph/model"
 )
 
-//Create a todo Model
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	todo := &model.Todo{
-		Text:   input.Text,
-		ID:     fmt.Sprintf("T%d", rand.Int()),
-		UserID: input.UserID,
-	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
-}
-
-//Create a User Model
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	newuser := &model.User{
 		ID:       fmt.Sprintf("T%d", rand.Int()),
@@ -36,23 +24,55 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	return newuser, nil
 }
 
-//return all todos
+func (r *mutationResolver) RemoveUser(ctx context.Context, input string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
 
-//return all users
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return r.users, nil
 }
 
-//return all parts
-func (r *queryResolver) Parts(ctx context.Context) ([]*model.Parts, error) {
-	return r.parts, nil
+func (r *queryResolver) PartsDb(ctx context.Context) (*model.PartsDb, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
-//return user based on string id
-func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+func (r *queryResolver) Motherboard(ctx context.Context) ([]*model.Motherboard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Cpus(ctx context.Context) ([]*model.CPU, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Storages(ctx context.Context) ([]*model.Storage, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Memories(ctx context.Context) ([]*model.Memory, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) PowerSupplies(ctx context.Context) ([]*model.PowerSupply, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) GraphicsCards(ctx context.Context) ([]*model.GraphicsCard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Cases(ctx context.Context) ([]*model.Case, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -72,3 +92,25 @@ func (r *Resolver) Todo() generated.TodoResolver { return &todoResolver{r} }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type todoResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *queryResolver) Parts(ctx context.Context) (model.PartsDb, error) {
+	return r.parts, nil
+}
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+	todo := &model.Todo{
+		Text:   input.Text,
+		ID:     fmt.Sprintf("T%d", rand.Int()),
+		UserID: input.UserID,
+	}
+	r.todos = append(r.todos, todo)
+	return todo, nil
+}

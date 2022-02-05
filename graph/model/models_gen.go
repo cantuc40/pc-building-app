@@ -21,6 +21,10 @@ type Case struct {
 	Price    float64 `json:"price"`
 }
 
+type DeleteUser struct {
+	ID string `json:"id"`
+}
+
 type GraphicsCard struct {
 	Name      string  `json:"name"`
 	ID        string  `json:"id"`
@@ -98,7 +102,14 @@ type Pc struct {
 	Cost            int              `json:"cost"`
 }
 
-type Parts struct {
+type Part struct {
+	Name    string  `json:"name"`
+	ID      string  `json:"id"`
+	Company string  `json:"company"`
+	Price   float64 `json:"price"`
+}
+
+type PartsDb struct {
 	Motherboards     []*Motherboard     `json:"motherboards"`
 	Cpus             []*CPU             `json:"cpus"`
 	Rams             []*Memory          `json:"rams"`
