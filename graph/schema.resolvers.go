@@ -12,6 +12,7 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph/model"
 )
 
+//Create a todo Model
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	todo := &model.Todo{
 		Text:   input.Text,
@@ -22,6 +23,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	return todo, nil
 }
 
+//Create a User Model
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	newuser := &model.User{
 		ID:       fmt.Sprintf("T%d", rand.Int()),
@@ -34,16 +36,24 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	return newuser, nil
 }
 
+//return all todos
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
 
+//return all users
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return r.users, nil
 }
 
+//return all parts
 func (r *queryResolver) Parts(ctx context.Context) ([]*model.Parts, error) {
 	return r.parts, nil
+}
+
+//return user based on string id
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {

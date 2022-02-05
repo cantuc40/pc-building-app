@@ -14,7 +14,7 @@ type Query {
   todos: [Todo!]!
   users: [User!]!
   parts: [Parts!]!
-  #user(id: ID!): User
+  user(id: ID!): User!
 }
 
 
