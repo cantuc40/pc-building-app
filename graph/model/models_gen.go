@@ -80,7 +80,6 @@ type NewTodo struct {
 }
 
 type NewUser struct {
-	ID       string `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
@@ -101,12 +100,12 @@ type Pc struct {
 	CPU             *CPU             `json:"cpu"`
 	RAM             *Memory          `json:"ram"`
 	Storage         *Storage         `json:"storage"`
-	Powersupplie    *PowerSupply     `json:"powersupplie"`
+	Powersupply     *PowerSupply     `json:"powersupply"`
 	GraphicCard     *GraphicsCard    `json:"graphic_card"`
 	Case            *Case            `json:"case"`
 	Monitor         *Monitor         `json:"monitor"`
 	OperatingSystem *OperatingSystem `json:"operating_system"`
-	Cost            int              `json:"cost"`
+	Cost            float64          `json:"cost"`
 }
 
 type Part struct {

@@ -7,9 +7,9 @@
 type Mutation {
 
   #POST
-  #createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
-  RemoveUser(input: ID!): User! 
+  RemoveUser(input: DeleteUser!): Boolean!
+  #CreateNewPart(input: NewPart!): Part!
 }
 
 #Query Schema
@@ -26,9 +26,6 @@ type Query {
   cases: [Case!]!
   monitors: [Monitor!]!
   operating_systems: [OperatingSystem!]!
-
-
-  #users(id: ID!): User!
 }
 
 
@@ -55,12 +52,12 @@ type PC {
   cpu: CPU!
   ram: Memory!
   storage: Storage!
-  powersupplie: PowerSupply!
+  powersupply: PowerSupply!
   graphic_card: GraphicsCard!
   case: Case!
   monitor: Monitor!
   operating_system: OperatingSystem!
-  cost: Int!
+  cost: Float!
 
 }
 
@@ -189,11 +186,24 @@ input NewTodo {
 }
 
 input NewUser {
-  id: ID!
   username: String!
   password: String!
   email: String!
 }
+
+#input NewPart {
+
+ # new_motherboard: Motherboard!
+  #new_cpu: CPU!
+#  new_ram: Memory!
+#  new_storage: Storage!
+#  new_powersupplie: PowerSupply!
+#  new_graphic_card: GraphicsCard!
+#  new_case: Case!
+#  new_monitor: Monitor!
+#  new_operating_system: OperatingSystem!
+
+#}
 
 input DeleteUser {
   id: ID!

@@ -114,7 +114,7 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		CreateUser func(childComplexity int, input model.NewUser) int
-		RemoveUser func(childComplexity int, input string) int
+		RemoveUser func(childComplexity int, input model.DeleteUser) int
 	}
 
 	OperatingSystem struct {
@@ -135,7 +135,7 @@ type ComplexityRoot struct {
 		Motherboard     func(childComplexity int) int
 		Name            func(childComplexity int) int
 		OperatingSystem func(childComplexity int) int
-		Powersupplie    func(childComplexity int) int
+		Powersupply     func(childComplexity int) int
 		RAM             func(childComplexity int) int
 		Storage         func(childComplexity int) int
 	}
@@ -213,7 +213,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	RemoveUser(ctx context.Context, input string) (*model.User, error)
+	RemoveUser(ctx context.Context, input model.DeleteUser) (bool, error)
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]*model.Todo, error)
@@ -620,7 +620,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.RemoveUser(childComplexity, args["input"].(string)), true
+		return e.complexity.Mutation.RemoveUser(childComplexity, args["input"].(model.DeleteUser)), true
 
 	case "OperatingSystem.company":
 		if e.complexity.OperatingSystem.Company == nil {
@@ -720,12 +720,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PC.OperatingSystem(childComplexity), true
 
-	case "PC.powersupplie":
-		if e.complexity.PC.Powersupplie == nil {
+	case "PC.powersupply":
+		if e.complexity.PC.Powersupply == nil {
 			break
 		}
 
-		return e.complexity.PC.Powersupplie(childComplexity), true
+		return e.complexity.PC.Powersupply(childComplexity), true
 
 	case "PC.ram":
 		if e.complexity.PC.RAM == nil {
@@ -1157,9 +1157,9 @@ var sources = []*ast.Source{
 type Mutation {
 
   #POST
-  #createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
-  RemoveUser(input: ID!): User! 
+  RemoveUser(input: DeleteUser!): Boolean!
+  #CreateNewPart(input: NewPart!): Part!
 }
 
 #Query Schema
@@ -1176,9 +1176,6 @@ type Query {
   cases: [Case!]!
   monitors: [Monitor!]!
   operating_systems: [OperatingSystem!]!
-
-
-  #users(id: ID!): User!
 }
 
 
@@ -1205,12 +1202,12 @@ type PC {
   cpu: CPU!
   ram: Memory!
   storage: Storage!
-  powersupplie: PowerSupply!
+  powersupply: PowerSupply!
   graphic_card: GraphicsCard!
   case: Case!
   monitor: Monitor!
   operating_system: OperatingSystem!
-  cost: Int!
+  cost: Float!
 
 }
 
@@ -1339,11 +1336,24 @@ input NewTodo {
 }
 
 input NewUser {
-  id: ID!
   username: String!
   password: String!
   email: String!
 }
+
+#input NewPart {
+
+ # new_motherboard: Motherboard!
+  #new_cpu: CPU!
+#  new_ram: Memory!
+#  new_storage: Storage!
+#  new_powersupplie: PowerSupply!
+#  new_graphic_card: GraphicsCard!
+#  new_case: Case!
+#  new_monitor: Monitor!
+#  new_operating_system: OperatingSystem!
+
+#}
 
 input DeleteUser {
   id: ID!
@@ -1366,10 +1376,10 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_RemoveUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 model.DeleteUser
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		arg0, err = ec.unmarshalNDeleteUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐDeleteUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3224,7 +3234,7 @@ func (ec *executionContext) _Mutation_RemoveUser(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RemoveUser(rctx, args["input"].(string))
+		return ec.resolvers.Mutation().RemoveUser(rctx, args["input"].(model.DeleteUser))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3236,9 +3246,9 @@ func (ec *executionContext) _Mutation_RemoveUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.(bool)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _OperatingSystem_name(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
@@ -3620,7 +3630,7 @@ func (ec *executionContext) _PC_storage(ctx context.Context, field graphql.Colle
 	return ec.marshalNStorage2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _PC_powersupplie(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
+func (ec *executionContext) _PC_powersupply(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -3638,7 +3648,7 @@ func (ec *executionContext) _PC_powersupplie(ctx context.Context, field graphql.
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Powersupplie, nil
+		return obj.Powersupply, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3825,9 +3835,9 @@ func (ec *executionContext) _PC_cost(ctx context.Context, field graphql.Collecte
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(float64)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Part_name(ctx context.Context, field graphql.CollectedField, obj *model.Part) (ret graphql.Marshaler) {
@@ -6759,14 +6769,6 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 
 	for k, v := range asMap {
 		switch k {
-		case "id":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalNID2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "username":
 			var err error
 
@@ -7577,9 +7579,9 @@ func (ec *executionContext) _PC(ctx context.Context, sel ast.SelectionSet, obj *
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "powersupplie":
+		case "powersupply":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_powersupplie(ctx, field, obj)
+				return ec._PC_powersupply(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8962,6 +8964,11 @@ func (ec *executionContext) marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑt
 		return graphql.Null
 	}
 	return ec._Case(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNDeleteUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐDeleteUser(ctx context.Context, v interface{}) (model.DeleteUser, error) {
+	res, err := ec.unmarshalInputDeleteUser(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {

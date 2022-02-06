@@ -19,13 +19,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 		Password: input.Password,
 		Email:    input.Email,
 	}
-
 	r.users = append(r.users, newuser)
 	return newuser, nil
 }
 
-func (r *mutationResolver) RemoveUser(ctx context.Context, input string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) RemoveUser(ctx context.Context, input model.DeleteUser) (bool, error) {
+	//r.DB.Where("id = ?", input.ID).Delete(&model.User{})
+	return true, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
