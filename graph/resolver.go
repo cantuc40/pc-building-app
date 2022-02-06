@@ -11,8 +11,7 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	todos []*model.Todo
 	users []*model.User
-	parts model.PartsDb
-	DB    *gorm.DB
+	//parts model.PartsDb
+	DB *gorm.DB
 }

@@ -13,6 +13,8 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph/model"
 )
 
+//------------------------User Mutations-------------------------
+//Create a New User
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	newuser := &model.User{
 		ID:       rand.Int(),
@@ -22,70 +24,237 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	}
 
 	r.DB.Create(&newuser)
-	r.users = append(r.users, newuser)
+	r.users = append(r.users, newuser) //Used for development enviroment
 	log.Println("User added")
 	return newuser, nil
 }
 
-func (r *mutationResolver) RemoveUser(ctx context.Context, input model.DeleteUser) (bool, error) {
-	r.DB.Where("id = ?", input.ID).Delete(&model.User{})
+//Remove a User
+func (r *mutationResolver) RemoveUser(ctx context.Context, input int) (bool, error) {
+	r.DB.Where("id = ?", input).Delete(&model.User{})
 	log.Println("User Deleted")
 	return true, nil
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
+//Update a User
+func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdatedUser) (*model.User, error) {
+	updateduser := &model.User{
+		ID:       input.ID,
+		Username: input.Username,
+		Password: input.Password,
+		Email:    input.Email,
+	}
+
+	r.DB.Model(&updateduser).Updates(&model.User{Username: input.Username, Password: input.Password, Email: input.Email})
+	return updateduser, nil
+}
+
+//------------------------Motherboard Mutations-------------------------
+//Create Motherboard
+func (r *mutationResolver) CreateMotherboard(ctx context.Context, input model.NewMotherBoard) (*model.Motherboard, error) {
+	newmotherboard := &model.Motherboard{
+		ID:            rand.Int(),
+		Name:          input.Name,
+		Company:       input.Company,
+		FormFactor:    input.FormFactor,
+		Sockets:       input.Sockets,
+		Chipsets:      input.Chipsets,
+		PciSlots:      input.PciSlots,
+		RAMSlots:      input.RAMSlots,
+		InternalPorts: input.InternalPorts,
+		ExternalPorts: input.ExternalPorts,
+		Price:         input.Price,
+	}
+
+	r.DB.Create(&newmotherboard)
+	log.Println("Motherboard added")
+	return newmotherboard, nil
+}
+
+//Remove Motherboard
+func (r *mutationResolver) RemoveMotherboard(ctx context.Context, input int) (bool, error) {
+	r.DB.Where("id = ?", input).Delete(&model.Motherboard{})
+	log.Println("Motherboard Deleted")
+	return true, nil
+}
+
+//Update Motherboard
+func (r *mutationResolver) UpdateMotherboard(ctx context.Context, input *model.UpdatedMotherboard) (*model.Motherboard, error) {
+	updatedmotherboard := &model.Motherboard{
+		ID:            input.ID,
+		Name:          input.Name,
+		Company:       input.Company,
+		FormFactor:    input.FormFactor,
+		Sockets:       input.Sockets,
+		Chipsets:      input.Chipsets,
+		PciSlots:      input.PciSlots,
+		RAMSlots:      input.RAMSlots,
+		InternalPorts: input.InternalPorts,
+		ExternalPorts: input.ExternalPorts,
+		Price:         input.Price,
+	}
+
+	r.DB.Model(&updatedmotherboard).Updates(&model.Motherboard{
+		Name:          input.Name,
+		Company:       input.Company,
+		FormFactor:    input.FormFactor,
+		Sockets:       input.Sockets,
+		Chipsets:      input.Chipsets,
+		PciSlots:      input.PciSlots,
+		RAMSlots:      input.RAMSlots,
+		InternalPorts: input.InternalPorts,
+		ExternalPorts: input.ExternalPorts,
+		Price:         input.Price})
+
+	return updatedmotherboard, nil
+
+}
+
+//------------------------CPU Mutations-------------------------
+func (r *mutationResolver) CreateCPU(ctx context.Context, input model.NewCPU) (*model.CPU, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveCPU(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateCPU(ctx context.Context, input model.UpdatedCPU) (*model.CPU, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Storage Mutations-------------------------
+func (r *mutationResolver) CreateStorage(ctx context.Context, input model.NewStorage) (*model.Storage, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveStorage(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateStorage(ctx context.Context, input model.UpdatedStorage) (*model.Storage, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Memory Mutations-------------------------
+func (r *mutationResolver) CreateMemory(ctx context.Context, input model.NewMemory) (*model.Memory, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveMemory(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateMemory(ctx context.Context, input model.UpdatedMemory) (*model.Memory, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Power Supply Mutations-------------------------
+func (r *mutationResolver) CreatePowerSupply(ctx context.Context, input model.NewPowerSupply) (*model.PowerSupply, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemovePowerSupply(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdatePowerSupply(ctx context.Context, input model.UpdatedPowerSupply) (*model.PowerSupply, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Graphics Card Mutations-------------------------
+func (r *mutationResolver) CreateGraphicCard(ctx context.Context, input model.NewGraphicCard) (*model.GraphicsCard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveGraphicCard(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateGraphicCard(ctx context.Context, input model.UpdatedGraphicCard) (*model.GraphicsCard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Case Mutations-------------------------
+func (r *mutationResolver) CreateCase(ctx context.Context, input model.NewCase) (*model.Case, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveCase(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateCase(ctx context.Context, input model.UpdatedCase) (*model.Case, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Monitor Mutations-------------------------
+func (r *mutationResolver) CreateMonitor(ctx context.Context, input model.NewMonitor) (*model.Monitor, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveMonitor(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateMonitor(ctx context.Context, input model.UpdatedMonitor) (*model.Monitor, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+//------------------------Operating System Mutations-------------------------
+func (r *mutationResolver) CreateOperatingSystem(ctx context.Context, input model.NewOs) (*model.OperatingSystem, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) RemoveOperatingSystem(ctx context.Context, input int) (bool, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateOperatingSystem(ctx context.Context, input model.UpdatedOs) (*model.OperatingSystem, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return r.users, nil
 }
 
-func (r *queryResolver) PartsDb(ctx context.Context) (*model.PartsDb, error) {
-	return &r.parts, nil
-}
-
-func (r *queryResolver) Motherboard(ctx context.Context) ([]*model.Motherboard, error) {
-	return r.parts.Motherboards, nil
-}
-
-func (r *queryResolver) Cpus(ctx context.Context) ([]*model.CPU, error) {
-	return r.parts.Cpus, nil
-}
-
-func (r *queryResolver) Storages(ctx context.Context) ([]*model.Storage, error) {
-	return r.parts.Storages, nil
-}
-
-func (r *queryResolver) Memories(ctx context.Context) ([]*model.Memory, error) {
-	return r.parts.Rams, nil
-}
-
-func (r *queryResolver) PowerSupplies(ctx context.Context) ([]*model.PowerSupply, error) {
-	return r.parts.Powersupplies, nil
-}
-
-func (r *queryResolver) GraphicsCards(ctx context.Context) ([]*model.GraphicsCard, error) {
-	return r.parts.GraphicCards, nil
-}
-
-func (r *queryResolver) Cases(ctx context.Context) ([]*model.Case, error) {
-	return r.parts.Cases, nil
-}
-
-func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) {
-	return r.parts.Monitors, nil
-}
-
-func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
-	return r.parts.OperatingSystems, nil
-}
-
-func (r *todoResolver) ID(ctx context.Context, obj *model.Todo) (int, error) {
+func (r *queryResolver) User(ctx context.Context, id int) (*model.User, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
+func (r *queryResolver) Motherboard(ctx context.Context) ([]*model.Motherboard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Cpus(ctx context.Context) ([]*model.CPU, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Storages(ctx context.Context) ([]*model.Storage, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Memories(ctx context.Context) ([]*model.Memory, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) PowerSupplies(ctx context.Context) ([]*model.PowerSupply, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) GraphicsCards(ctx context.Context) ([]*model.GraphicsCard, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Cases(ctx context.Context) ([]*model.Case, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -95,31 +264,5 @@ func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResol
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-// Todo returns generated.TodoResolver implementation.
-func (r *Resolver) Todo() generated.TodoResolver { return &todoResolver{r} }
-
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-type todoResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *queryResolver) Parts(ctx context.Context) (model.PartsDb, error) {
-	return r.parts, nil
-}
-func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	todo := &model.Todo{
-		Text:   input.Text,
-		ID:     fmt.Sprintf("T%d", rand.Int()),
-		UserID: input.UserID,
-	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
-}

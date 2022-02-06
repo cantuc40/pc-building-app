@@ -21,10 +21,6 @@ type Case struct {
 	Price    float64 `json:"price"`
 }
 
-type DeleteUser struct {
-	ID int `json:"id"`
-}
-
 type GraphicsCard struct {
 	Name      string  `json:"name"`
 	ID        int     `json:"id"`
@@ -68,9 +64,83 @@ type Motherboard struct {
 	Price         float64 `json:"price"`
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type NewCPU struct {
+	Name       string  `json:"name"`
+	Company    *string `json:"company"`
+	Cores      int     `json:"cores"`
+	Clockspeed string  `json:"clockspeed"`
+	Sockets    int     `json:"sockets"`
+	Price      float64 `json:"price"`
+}
+
+type NewCase struct {
+	Name     string  `json:"name"`
+	Company  *string `json:"company"`
+	Windowed *bool   `json:"windowed"`
+	Material string  `json:"material"`
+	Price    float64 `json:"price"`
+}
+
+type NewGraphicCard struct {
+	Name      string  `json:"name"`
+	Company   *string `json:"company"`
+	Gpu       string  `json:"gpu"`
+	Memory    int     `json:"memory"`
+	CoreClock string  `json:"core_clock"`
+	Price     float64 `json:"price"`
+}
+
+type NewMemory struct {
+	Name           string  `json:"name"`
+	Company        *string `json:"company"`
+	Frequency      string  `json:"frequency"`
+	CasLatency     string  `json:"cas_latency"`
+	MemoryChannels string  `json:"memory_channels"`
+	Price          float64 `json:"price"`
+}
+
+type NewMonitor struct {
+	Name       string  `json:"name"`
+	Company    *string `json:"company"`
+	Resolution string  `json:"resolution"`
+	Hz         int     `json:"hz"`
+	Price      float64 `json:"price"`
+}
+
+type NewMotherBoard struct {
+	Name          string  `json:"name"`
+	Company       *string `json:"company"`
+	FormFactor    string  `json:"form_factor"`
+	Sockets       int     `json:"sockets"`
+	Chipsets      int     `json:"chipsets"`
+	PciSlots      int     `json:"pci_slots"`
+	RAMSlots      int     `json:"ram_slots"`
+	InternalPorts int     `json:"internal_ports"`
+	ExternalPorts int     `json:"external_ports"`
+	Price         float64 `json:"price"`
+}
+
+type NewOs struct {
+	Name    string  `json:"name"`
+	Company *string `json:"company"`
+	Price   int     `json:"price"`
+}
+
+type NewPowerSupply struct {
+	Name       string  `json:"name"`
+	Company    *string `json:"company"`
+	FormFactor string  `json:"form_factor"`
+	Modularity string  `json:"modularity"`
+	Price      float64 `json:"price"`
+}
+
+type NewStorage struct {
+	Name     string  `json:"name"`
+	Company  *string `json:"company"`
+	Format   string  `json:"format"`
+	Capacity string  `json:"capacity"`
+	Speed    string  `json:"speed"`
+	Price    float64 `json:"price"`
 }
 
 type NewUser struct {
@@ -87,37 +157,8 @@ type OperatingSystem struct {
 }
 
 type Pc struct {
-	Name            string           `json:"name"`
-	ID              int              `json:"id"`
-	Motherboard     *Motherboard     `json:"motherboard"`
-	CPU             *CPU             `json:"cpu"`
-	RAM             *Memory          `json:"ram"`
-	Storage         *Storage         `json:"storage"`
-	Powersupply     *PowerSupply     `json:"powersupply"`
-	GraphicCard     *GraphicsCard    `json:"graphic_card"`
-	Case            *Case            `json:"case"`
-	Monitor         *Monitor         `json:"monitor"`
-	OperatingSystem *OperatingSystem `json:"operating_system"`
-	Cost            float64          `json:"cost"`
-}
-
-type Part struct {
-	Name    string  `json:"name"`
-	ID      int     `json:"id"`
-	Company string  `json:"company"`
-	Price   float64 `json:"price"`
-}
-
-type PartsDb struct {
-	Motherboards     []*Motherboard     `json:"motherboards"`
-	Cpus             []*CPU             `json:"cpus"`
-	Rams             []*Memory          `json:"rams"`
-	Storages         []*Storage         `json:"storages"`
-	Powersupplies    []*PowerSupply     `json:"powersupplies"`
-	GraphicCards     []*GraphicsCard    `json:"graphic_cards"`
-	Cases            []*Case            `json:"cases"`
-	Monitors         []*Monitor         `json:"monitors"`
-	OperatingSystems []*OperatingSystem `json:"operating_systems"`
+	Name string `json:"name"`
+	ID   int    `json:"id"`
 }
 
 type PowerSupply struct {
@@ -139,9 +180,105 @@ type Storage struct {
 	Price    float64 `json:"price"`
 }
 
-type User struct {
+type UpdatedCPU struct {
+	Name       string  `json:"name"`
+	ID         int     `json:"id"`
+	Company    *string `json:"company"`
+	Cores      int     `json:"cores"`
+	Clockspeed string  `json:"clockspeed"`
+	Sockets    int     `json:"sockets"`
+	Price      float64 `json:"price"`
+}
+
+type UpdatedCase struct {
+	Name     string  `json:"name"`
+	ID       int     `json:"id"`
+	Company  *string `json:"company"`
+	Windowed *bool   `json:"windowed"`
+	Material string  `json:"material"`
+	Price    float64 `json:"price"`
+}
+
+type UpdatedGraphicCard struct {
+	Name      string  `json:"name"`
+	ID        int     `json:"id"`
+	Company   *string `json:"company"`
+	Gpu       string  `json:"gpu"`
+	Memory    int     `json:"memory"`
+	CoreClock string  `json:"core_clock"`
+	Price     float64 `json:"price"`
+}
+
+type UpdatedMemory struct {
+	Name           string  `json:"name"`
+	ID             int     `json:"id"`
+	Company        *string `json:"company"`
+	Frequency      string  `json:"frequency"`
+	CasLatency     string  `json:"cas_latency"`
+	MemoryChannels string  `json:"memory_channels"`
+	Price          float64 `json:"price"`
+}
+
+type UpdatedMonitor struct {
+	Name       string  `json:"name"`
+	ID         int     `json:"id"`
+	Company    *string `json:"company"`
+	Resolution string  `json:"resolution"`
+	Hz         int     `json:"hz"`
+	Price      float64 `json:"price"`
+}
+
+type UpdatedMotherboard struct {
+	Name          string  `json:"name"`
+	ID            int     `json:"id"`
+	Company       *string `json:"company"`
+	FormFactor    string  `json:"form_factor"`
+	Sockets       int     `json:"sockets"`
+	Chipsets      int     `json:"chipsets"`
+	PciSlots      int     `json:"pci_slots"`
+	RAMSlots      int     `json:"ram_slots"`
+	InternalPorts int     `json:"internal_ports"`
+	ExternalPorts int     `json:"external_ports"`
+	Price         float64 `json:"price"`
+}
+
+type UpdatedOs struct {
+	Name    string  `json:"name"`
+	ID      int     `json:"id"`
+	Company *string `json:"company"`
+	Price   int     `json:"price"`
+}
+
+type UpdatedPowerSupply struct {
+	Name       string  `json:"name"`
+	ID         int     `json:"id"`
+	Company    *string `json:"company"`
+	FormFactor string  `json:"form_factor"`
+	Modularity string  `json:"modularity"`
+	Price      float64 `json:"price"`
+}
+
+type UpdatedStorage struct {
+	Name     string  `json:"name"`
+	ID       int     `json:"id"`
+	Company  *string `json:"company"`
+	Format   string  `json:"format"`
+	Capacity string  `json:"capacity"`
+	Speed    string  `json:"speed"`
+	Price    float64 `json:"price"`
+}
+
+type UpdatedUser struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
+}
+
+type User struct {
+	ID             int    `json:"id"`
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	Email          string `json:"email"`
+	PcCollectionID int    `json:"pc_collection_id"`
 }

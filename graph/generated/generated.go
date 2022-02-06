@@ -37,7 +37,6 @@ type Config struct {
 type ResolverRoot interface {
 	Mutation() MutationResolver
 	Query() QueryResolver
-	Todo() TodoResolver
 }
 
 type DirectiveRoot struct {
@@ -107,8 +106,36 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateUser func(childComplexity int, input model.NewUser) int
-		RemoveUser func(childComplexity int, input model.DeleteUser) int
+		CreateCPU             func(childComplexity int, input model.NewCPU) int
+		CreateCase            func(childComplexity int, input model.NewCase) int
+		CreateGraphicCard     func(childComplexity int, input model.NewGraphicCard) int
+		CreateMemory          func(childComplexity int, input model.NewMemory) int
+		CreateMonitor         func(childComplexity int, input model.NewMonitor) int
+		CreateMotherboard     func(childComplexity int, input model.NewMotherBoard) int
+		CreateOperatingSystem func(childComplexity int, input model.NewOs) int
+		CreatePowerSupply     func(childComplexity int, input model.NewPowerSupply) int
+		CreateStorage         func(childComplexity int, input model.NewStorage) int
+		CreateUser            func(childComplexity int, input model.NewUser) int
+		RemoveCPU             func(childComplexity int, input int) int
+		RemoveCase            func(childComplexity int, input int) int
+		RemoveGraphicCard     func(childComplexity int, input int) int
+		RemoveMemory          func(childComplexity int, input int) int
+		RemoveMonitor         func(childComplexity int, input int) int
+		RemoveMotherboard     func(childComplexity int, input int) int
+		RemoveOperatingSystem func(childComplexity int, input int) int
+		RemovePowerSupply     func(childComplexity int, input int) int
+		RemoveStorage         func(childComplexity int, input int) int
+		RemoveUser            func(childComplexity int, input int) int
+		UpdateCPU             func(childComplexity int, input model.UpdatedCPU) int
+		UpdateCase            func(childComplexity int, input model.UpdatedCase) int
+		UpdateGraphicCard     func(childComplexity int, input model.UpdatedGraphicCard) int
+		UpdateMemory          func(childComplexity int, input model.UpdatedMemory) int
+		UpdateMonitor         func(childComplexity int, input model.UpdatedMonitor) int
+		UpdateMotherboard     func(childComplexity int, input *model.UpdatedMotherboard) int
+		UpdateOperatingSystem func(childComplexity int, input model.UpdatedOs) int
+		UpdatePowerSupply     func(childComplexity int, input model.UpdatedPowerSupply) int
+		UpdateStorage         func(childComplexity int, input model.UpdatedStorage) int
+		UpdateUser            func(childComplexity int, input model.UpdatedUser) int
 	}
 
 	OperatingSystem struct {
@@ -119,37 +146,8 @@ type ComplexityRoot struct {
 	}
 
 	PC struct {
-		CPU             func(childComplexity int) int
-		Case            func(childComplexity int) int
-		Cost            func(childComplexity int) int
-		GraphicCard     func(childComplexity int) int
-		ID              func(childComplexity int) int
-		Monitor         func(childComplexity int) int
-		Motherboard     func(childComplexity int) int
-		Name            func(childComplexity int) int
-		OperatingSystem func(childComplexity int) int
-		Powersupply     func(childComplexity int) int
-		RAM             func(childComplexity int) int
-		Storage         func(childComplexity int) int
-	}
-
-	Part struct {
-		Company func(childComplexity int) int
-		ID      func(childComplexity int) int
-		Name    func(childComplexity int) int
-		Price   func(childComplexity int) int
-	}
-
-	Parts_DB struct {
-		Cases            func(childComplexity int) int
-		Cpus             func(childComplexity int) int
-		GraphicCards     func(childComplexity int) int
-		Monitors         func(childComplexity int) int
-		Motherboards     func(childComplexity int) int
-		OperatingSystems func(childComplexity int) int
-		Powersupplies    func(childComplexity int) int
-		Rams             func(childComplexity int) int
-		Storages         func(childComplexity int) int
+		ID   func(childComplexity int) int
+		Name func(childComplexity int) int
 	}
 
 	PowerSupply struct {
@@ -169,10 +167,9 @@ type ComplexityRoot struct {
 		Monitors         func(childComplexity int) int
 		Motherboard      func(childComplexity int) int
 		OperatingSystems func(childComplexity int) int
-		PartsDb          func(childComplexity int) int
 		PowerSupplies    func(childComplexity int) int
 		Storages         func(childComplexity int) int
-		Todos            func(childComplexity int) int
+		User             func(childComplexity int, id int) int
 		Users            func(childComplexity int) int
 	}
 
@@ -186,29 +183,50 @@ type ComplexityRoot struct {
 		Speed    func(childComplexity int) int
 	}
 
-	Todo struct {
-		Done func(childComplexity int) int
-		ID   func(childComplexity int) int
-		Text func(childComplexity int) int
-		User func(childComplexity int) int
-	}
-
 	User struct {
-		Email    func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Password func(childComplexity int) int
-		Username func(childComplexity int) int
+		Email          func(childComplexity int) int
+		ID             func(childComplexity int) int
+		Password       func(childComplexity int) int
+		PcCollectionID func(childComplexity int) int
+		Username       func(childComplexity int) int
 	}
 }
 
 type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	RemoveUser(ctx context.Context, input model.DeleteUser) (bool, error)
+	RemoveUser(ctx context.Context, input int) (bool, error)
+	UpdateUser(ctx context.Context, input model.UpdatedUser) (*model.User, error)
+	CreateMotherboard(ctx context.Context, input model.NewMotherBoard) (*model.Motherboard, error)
+	RemoveMotherboard(ctx context.Context, input int) (bool, error)
+	UpdateMotherboard(ctx context.Context, input *model.UpdatedMotherboard) (*model.Motherboard, error)
+	CreateCPU(ctx context.Context, input model.NewCPU) (*model.CPU, error)
+	RemoveCPU(ctx context.Context, input int) (bool, error)
+	UpdateCPU(ctx context.Context, input model.UpdatedCPU) (*model.CPU, error)
+	CreateStorage(ctx context.Context, input model.NewStorage) (*model.Storage, error)
+	RemoveStorage(ctx context.Context, input int) (bool, error)
+	UpdateStorage(ctx context.Context, input model.UpdatedStorage) (*model.Storage, error)
+	CreateMemory(ctx context.Context, input model.NewMemory) (*model.Memory, error)
+	RemoveMemory(ctx context.Context, input int) (bool, error)
+	UpdateMemory(ctx context.Context, input model.UpdatedMemory) (*model.Memory, error)
+	CreatePowerSupply(ctx context.Context, input model.NewPowerSupply) (*model.PowerSupply, error)
+	RemovePowerSupply(ctx context.Context, input int) (bool, error)
+	UpdatePowerSupply(ctx context.Context, input model.UpdatedPowerSupply) (*model.PowerSupply, error)
+	CreateGraphicCard(ctx context.Context, input model.NewGraphicCard) (*model.GraphicsCard, error)
+	RemoveGraphicCard(ctx context.Context, input int) (bool, error)
+	UpdateGraphicCard(ctx context.Context, input model.UpdatedGraphicCard) (*model.GraphicsCard, error)
+	CreateCase(ctx context.Context, input model.NewCase) (*model.Case, error)
+	RemoveCase(ctx context.Context, input int) (bool, error)
+	UpdateCase(ctx context.Context, input model.UpdatedCase) (*model.Case, error)
+	CreateMonitor(ctx context.Context, input model.NewMonitor) (*model.Monitor, error)
+	RemoveMonitor(ctx context.Context, input int) (bool, error)
+	UpdateMonitor(ctx context.Context, input model.UpdatedMonitor) (*model.Monitor, error)
+	CreateOperatingSystem(ctx context.Context, input model.NewOs) (*model.OperatingSystem, error)
+	RemoveOperatingSystem(ctx context.Context, input int) (bool, error)
+	UpdateOperatingSystem(ctx context.Context, input model.UpdatedOs) (*model.OperatingSystem, error)
 }
 type QueryResolver interface {
-	Todos(ctx context.Context) ([]*model.Todo, error)
 	Users(ctx context.Context) ([]*model.User, error)
-	PartsDb(ctx context.Context) (*model.PartsDb, error)
+	User(ctx context.Context, id int) (*model.User, error)
 	Motherboard(ctx context.Context) ([]*model.Motherboard, error)
 	Cpus(ctx context.Context) ([]*model.CPU, error)
 	Storages(ctx context.Context) ([]*model.Storage, error)
@@ -218,11 +236,6 @@ type QueryResolver interface {
 	Cases(ctx context.Context) ([]*model.Case, error)
 	Monitors(ctx context.Context) ([]*model.Monitor, error)
 	OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error)
-}
-type TodoResolver interface {
-	ID(ctx context.Context, obj *model.Todo) (int, error)
-
-	User(ctx context.Context, obj *model.Todo) (*model.User, error)
 }
 
 type executableSchema struct {
@@ -548,6 +561,114 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Motherboard.Sockets(childComplexity), true
 
+	case "Mutation.createCPU":
+		if e.complexity.Mutation.CreateCPU == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCPU_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCPU(childComplexity, args["input"].(model.NewCPU)), true
+
+	case "Mutation.createCase":
+		if e.complexity.Mutation.CreateCase == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCase_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCase(childComplexity, args["input"].(model.NewCase)), true
+
+	case "Mutation.createGraphicCard":
+		if e.complexity.Mutation.CreateGraphicCard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createGraphicCard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateGraphicCard(childComplexity, args["input"].(model.NewGraphicCard)), true
+
+	case "Mutation.createMemory":
+		if e.complexity.Mutation.CreateMemory == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMemory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMemory(childComplexity, args["input"].(model.NewMemory)), true
+
+	case "Mutation.createMonitor":
+		if e.complexity.Mutation.CreateMonitor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMonitor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMonitor(childComplexity, args["input"].(model.NewMonitor)), true
+
+	case "Mutation.createMotherboard":
+		if e.complexity.Mutation.CreateMotherboard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMotherboard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMotherboard(childComplexity, args["input"].(model.NewMotherBoard)), true
+
+	case "Mutation.createOperatingSystem":
+		if e.complexity.Mutation.CreateOperatingSystem == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createOperatingSystem_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateOperatingSystem(childComplexity, args["input"].(model.NewOs)), true
+
+	case "Mutation.createPowerSupply":
+		if e.complexity.Mutation.CreatePowerSupply == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createPowerSupply_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreatePowerSupply(childComplexity, args["input"].(model.NewPowerSupply)), true
+
+	case "Mutation.createStorage":
+		if e.complexity.Mutation.CreateStorage == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createStorage_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateStorage(childComplexity, args["input"].(model.NewStorage)), true
+
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -560,6 +681,114 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(model.NewUser)), true
 
+	case "Mutation.RemoveCPU":
+		if e.complexity.Mutation.RemoveCPU == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveCPU_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveCPU(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveCase":
+		if e.complexity.Mutation.RemoveCase == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveCase_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveCase(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveGraphicCard":
+		if e.complexity.Mutation.RemoveGraphicCard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveGraphicCard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveGraphicCard(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveMemory":
+		if e.complexity.Mutation.RemoveMemory == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveMemory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveMemory(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveMonitor":
+		if e.complexity.Mutation.RemoveMonitor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveMonitor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveMonitor(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveMotherboard":
+		if e.complexity.Mutation.RemoveMotherboard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveMotherboard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveMotherboard(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveOperatingSystem":
+		if e.complexity.Mutation.RemoveOperatingSystem == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveOperatingSystem_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveOperatingSystem(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemovePowerSupply":
+		if e.complexity.Mutation.RemovePowerSupply == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemovePowerSupply_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemovePowerSupply(childComplexity, args["input"].(int)), true
+
+	case "Mutation.RemoveStorage":
+		if e.complexity.Mutation.RemoveStorage == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_RemoveStorage_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveStorage(childComplexity, args["input"].(int)), true
+
 	case "Mutation.RemoveUser":
 		if e.complexity.Mutation.RemoveUser == nil {
 			break
@@ -570,7 +799,127 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.RemoveUser(childComplexity, args["input"].(model.DeleteUser)), true
+		return e.complexity.Mutation.RemoveUser(childComplexity, args["input"].(int)), true
+
+	case "Mutation.UpdateCPU":
+		if e.complexity.Mutation.UpdateCPU == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateCPU_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateCPU(childComplexity, args["input"].(model.UpdatedCPU)), true
+
+	case "Mutation.UpdateCase":
+		if e.complexity.Mutation.UpdateCase == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateCase_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateCase(childComplexity, args["input"].(model.UpdatedCase)), true
+
+	case "Mutation.UpdateGraphicCard":
+		if e.complexity.Mutation.UpdateGraphicCard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateGraphicCard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateGraphicCard(childComplexity, args["input"].(model.UpdatedGraphicCard)), true
+
+	case "Mutation.UpdateMemory":
+		if e.complexity.Mutation.UpdateMemory == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateMemory_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMemory(childComplexity, args["input"].(model.UpdatedMemory)), true
+
+	case "Mutation.UpdateMonitor":
+		if e.complexity.Mutation.UpdateMonitor == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateMonitor_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMonitor(childComplexity, args["input"].(model.UpdatedMonitor)), true
+
+	case "Mutation.UpdateMotherboard":
+		if e.complexity.Mutation.UpdateMotherboard == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateMotherboard_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMotherboard(childComplexity, args["input"].(*model.UpdatedMotherboard)), true
+
+	case "Mutation.UpdateOperatingSystem":
+		if e.complexity.Mutation.UpdateOperatingSystem == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateOperatingSystem_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateOperatingSystem(childComplexity, args["input"].(model.UpdatedOs)), true
+
+	case "Mutation.UpdatePowerSupply":
+		if e.complexity.Mutation.UpdatePowerSupply == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdatePowerSupply_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdatePowerSupply(childComplexity, args["input"].(model.UpdatedPowerSupply)), true
+
+	case "Mutation.UpdateStorage":
+		if e.complexity.Mutation.UpdateStorage == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateStorage_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateStorage(childComplexity, args["input"].(model.UpdatedStorage)), true
+
+	case "Mutation.UpdateUser":
+		if e.complexity.Mutation.UpdateUser == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_UpdateUser_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(model.UpdatedUser)), true
 
 	case "OperatingSystem.company":
 		if e.complexity.OperatingSystem.Company == nil {
@@ -600,34 +949,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.OperatingSystem.Price(childComplexity), true
 
-	case "PC.cpu":
-		if e.complexity.PC.CPU == nil {
-			break
-		}
-
-		return e.complexity.PC.CPU(childComplexity), true
-
-	case "PC.case":
-		if e.complexity.PC.Case == nil {
-			break
-		}
-
-		return e.complexity.PC.Case(childComplexity), true
-
-	case "PC.cost":
-		if e.complexity.PC.Cost == nil {
-			break
-		}
-
-		return e.complexity.PC.Cost(childComplexity), true
-
-	case "PC.graphic_card":
-		if e.complexity.PC.GraphicCard == nil {
-			break
-		}
-
-		return e.complexity.PC.GraphicCard(childComplexity), true
-
 	case "PC.id":
 		if e.complexity.PC.ID == nil {
 			break
@@ -635,145 +956,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PC.ID(childComplexity), true
 
-	case "PC.monitor":
-		if e.complexity.PC.Monitor == nil {
-			break
-		}
-
-		return e.complexity.PC.Monitor(childComplexity), true
-
-	case "PC.motherboard":
-		if e.complexity.PC.Motherboard == nil {
-			break
-		}
-
-		return e.complexity.PC.Motherboard(childComplexity), true
-
 	case "PC.name":
 		if e.complexity.PC.Name == nil {
 			break
 		}
 
 		return e.complexity.PC.Name(childComplexity), true
-
-	case "PC.operating_system":
-		if e.complexity.PC.OperatingSystem == nil {
-			break
-		}
-
-		return e.complexity.PC.OperatingSystem(childComplexity), true
-
-	case "PC.powersupply":
-		if e.complexity.PC.Powersupply == nil {
-			break
-		}
-
-		return e.complexity.PC.Powersupply(childComplexity), true
-
-	case "PC.ram":
-		if e.complexity.PC.RAM == nil {
-			break
-		}
-
-		return e.complexity.PC.RAM(childComplexity), true
-
-	case "PC.storage":
-		if e.complexity.PC.Storage == nil {
-			break
-		}
-
-		return e.complexity.PC.Storage(childComplexity), true
-
-	case "Part.company":
-		if e.complexity.Part.Company == nil {
-			break
-		}
-
-		return e.complexity.Part.Company(childComplexity), true
-
-	case "Part.id":
-		if e.complexity.Part.ID == nil {
-			break
-		}
-
-		return e.complexity.Part.ID(childComplexity), true
-
-	case "Part.name":
-		if e.complexity.Part.Name == nil {
-			break
-		}
-
-		return e.complexity.Part.Name(childComplexity), true
-
-	case "Part.price":
-		if e.complexity.Part.Price == nil {
-			break
-		}
-
-		return e.complexity.Part.Price(childComplexity), true
-
-	case "Parts_DB.cases":
-		if e.complexity.Parts_DB.Cases == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Cases(childComplexity), true
-
-	case "Parts_DB.cpus":
-		if e.complexity.Parts_DB.Cpus == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Cpus(childComplexity), true
-
-	case "Parts_DB.graphic_cards":
-		if e.complexity.Parts_DB.GraphicCards == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.GraphicCards(childComplexity), true
-
-	case "Parts_DB.monitors":
-		if e.complexity.Parts_DB.Monitors == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Monitors(childComplexity), true
-
-	case "Parts_DB.motherboards":
-		if e.complexity.Parts_DB.Motherboards == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Motherboards(childComplexity), true
-
-	case "Parts_DB.operating_systems":
-		if e.complexity.Parts_DB.OperatingSystems == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.OperatingSystems(childComplexity), true
-
-	case "Parts_DB.powersupplies":
-		if e.complexity.Parts_DB.Powersupplies == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Powersupplies(childComplexity), true
-
-	case "Parts_DB.rams":
-		if e.complexity.Parts_DB.Rams == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Rams(childComplexity), true
-
-	case "Parts_DB.storages":
-		if e.complexity.Parts_DB.Storages == nil {
-			break
-		}
-
-		return e.complexity.Parts_DB.Storages(childComplexity), true
 
 	case "PowerSupply.company":
 		if e.complexity.PowerSupply.Company == nil {
@@ -866,13 +1054,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.OperatingSystems(childComplexity), true
 
-	case "Query.parts_db":
-		if e.complexity.Query.PartsDb == nil {
-			break
-		}
-
-		return e.complexity.Query.PartsDb(childComplexity), true
-
 	case "Query.power_supplies":
 		if e.complexity.Query.PowerSupplies == nil {
 			break
@@ -887,12 +1068,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Storages(childComplexity), true
 
-	case "Query.todos":
-		if e.complexity.Query.Todos == nil {
+	case "Query.user":
+		if e.complexity.Query.User == nil {
 			break
 		}
 
-		return e.complexity.Query.Todos(childComplexity), true
+		args, err := ec.field_Query_user_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.User(childComplexity, args["id"].(int)), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -950,34 +1136,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Storage.Speed(childComplexity), true
 
-	case "Todo.done":
-		if e.complexity.Todo.Done == nil {
-			break
-		}
-
-		return e.complexity.Todo.Done(childComplexity), true
-
-	case "Todo.id":
-		if e.complexity.Todo.ID == nil {
-			break
-		}
-
-		return e.complexity.Todo.ID(childComplexity), true
-
-	case "Todo.text":
-		if e.complexity.Todo.Text == nil {
-			break
-		}
-
-		return e.complexity.Todo.Text(childComplexity), true
-
-	case "Todo.user":
-		if e.complexity.Todo.User == nil {
-			break
-		}
-
-		return e.complexity.Todo.User(childComplexity), true
-
 	case "User.email":
 		if e.complexity.User.Email == nil {
 			break
@@ -998,6 +1156,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Password(childComplexity), true
+
+	case "User.pc_collection_id":
+		if e.complexity.User.PcCollectionID == nil {
+			break
+		}
+
+		return e.complexity.User.PcCollectionID(childComplexity), true
 
 	case "User.username":
 		if e.complexity.User.Username == nil {
@@ -1077,18 +1242,54 @@ var sources = []*ast.Source{
 
 #Mutation Schema
 type Mutation {
+  createUser            (input: NewUser!):            User!
+  RemoveUser            (input: Int!):                Boolean!
+  UpdateUser            (input: UpdatedUser!):        User!
 
-  #POST
-  createUser(input: NewUser!): User!
-  RemoveUser(input: DeleteUser!): Boolean!
-  #CreateNewPart(input: NewPart!): Part!
+  createMotherboard     (input: NewMotherBoard!):     Motherboard!
+  RemoveMotherboard     (input: Int!):                Boolean!
+  UpdateMotherboard     (input: UpdatedMotherboard):  Motherboard!
+
+  createCPU             (input: NewCPU!):             CPU!
+  RemoveCPU             (input: Int!):                Boolean!
+  UpdateCPU             (input: UpdatedCPU!):         CPU!
+
+  createStorage         (input: NewStorage!):         Storage!
+  RemoveStorage         (input: Int!):                Boolean!
+  UpdateStorage         (input: UpdatedStorage!):     Storage!
+
+  createMemory          (input: NewMemory!):          Memory!
+  RemoveMemory          (input: Int!):                Boolean!
+  UpdateMemory          (input: UpdatedMemory!):      Memory!
+
+  createPowerSupply     (input: NewPowerSupply!):     PowerSupply!
+  RemovePowerSupply     (input: Int!):                Boolean!
+  UpdatePowerSupply     (input: UpdatedPowerSupply!): PowerSupply!
+
+  createGraphicCard     (input: NewGraphicCard!):     GraphicsCard!
+  RemoveGraphicCard     (input: Int!):                Boolean!
+  UpdateGraphicCard     (input: UpdatedGraphicCard!): GraphicsCard!
+
+  createCase            (input: NewCase!):            Case!
+  RemoveCase            (input: Int!):                Boolean!
+  UpdateCase            (input: UpdatedCase!):        Case!
+  
+  createMonitor         (input: NewMonitor!):         Monitor!
+  RemoveMonitor         (input: Int!):                Boolean!
+  UpdateMonitor         (input: UpdatedMonitor!):     Monitor!
+
+  createOperatingSystem (input: NewOS!):              OperatingSystem!
+  RemoveOperatingSystem (input: Int!):                Boolean!
+  UpdateOperatingSystem (input: UpdatedOS!):          OperatingSystem!
+
 }
+
+
 
 #Query Schema
 type Query {
-  todos: [Todo!]!
   users: [User!]!
-  parts_db: Parts_DB!
+  user(id: Int!): User!
   motherboard: [Motherboard!]!
   cpus: [CPU!]!
   storages: [Storage!]!
@@ -1101,57 +1302,30 @@ type Query {
 }
 
 
-#Object Schemas
-type Todo {
-  id: Int!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
+#--------------------Object Schemas------------------------------------------------------
 type User {
   id: Int!
   username: String!
   password: String!
   email: String!
+  pc_collection_id: Int!
   #pcs: [PC!]
 }
 
 type PC {
   name: String!
   id: Int!
-  motherboard: Motherboard!
-  cpu: CPU!
-  ram: Memory!
-  storage: Storage!
-  powersupply: PowerSupply!
-  graphic_card: GraphicsCard!
-  case: Case!
-  monitor: Monitor!
-  operating_system: OperatingSystem!
-  cost: Float!
+#  motherboard_id: Motherboard!
+#  cpu: CPU!
+#  ram: Memory!
+#  storage: Storage!
+#  powersupply: PowerSupply!
+#  graphic_card: GraphicsCard!
+#  case: Case!
+#  monitor: Monitor!
+#  operating_system: OperatingSystem!
+#  cost: Float!
 
-}
-
-
-type Parts_DB {
-  motherboards: [Motherboard!]
-  cpus: [CPU!]
-  rams: [Memory!]
-  storages: [Storage!]
-  powersupplies: [PowerSupply!]
-  graphic_cards: [GraphicsCard!]
-  cases: [Case!]
-  monitors: [Monitor!]
-  operating_systems: [OperatingSystem!]
-
-}
-
-type Part {
-  name: String!
-  id: Int!
-  company: String!
-  price: Float!
 }
 
 type Motherboard  {
@@ -1251,39 +1425,193 @@ type OperatingSystem {
   #users: [User!]
 }
 
-#Inputs
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
+#-------------------------------Inputs----------------------------------------------------------------------------------------
 input NewUser {
   username: String!
   password: String!
   email: String!
 }
 
-#input NewPart {
-
- # new_motherboard: Motherboard!
-  #new_cpu: CPU!
-#  new_ram: Memory!
-#  new_storage: Storage!
-#  new_powersupplie: PowerSupply!
-#  new_graphic_card: GraphicsCard!
-#  new_case: Case!
-#  new_monitor: Monitor!
-#  new_operating_system: OperatingSystem!
-
-#}
-
-input DeleteUser {
+input UpdatedUser {
   id: Int!
+  username: String!
+  password: String!
+  email: String!
 }
 
 
 
+input NewMotherBoard{
+  name: String!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
 
+}
+input UpdatedMotherboard {
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+
+}
+
+
+input NewCPU {
+  name: String!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+input UpdatedCPU {
+  name: String!
+  id: Int!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+
+
+input NewStorage {
+  name: String!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+input UpdatedStorage {
+  name: String!
+  id: Int!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+
+
+input NewMemory {
+  name: String!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+input UpdatedMemory {
+  name: String!
+  id: Int!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+
+
+input NewPowerSupply{
+  name: String!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+input UpdatedPowerSupply{
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+
+input NewGraphicCard{
+  name: String!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+input UpdatedGraphicCard{
+  name: String!
+  id: Int!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+
+input NewCase{
+  name: String!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+input UpdatedCase{
+  name: String!
+  id: Int!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+
+input NewMonitor{
+  name: String!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+input UpdatedMonitor{
+  name: String!
+  id: Int!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+
+input NewOS{
+  name: String!
+  company: String
+  price: Int!
+}
+input UpdatedOS{
+  name: String!
+  id: Int!
+  company: String
+  price: Int!
+}
 
 
 
@@ -1295,13 +1623,433 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
+func (ec *executionContext) field_Mutation_RemoveCPU_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveCase_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveGraphicCard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveMemory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveMonitor_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveMotherboard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveOperatingSystem_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemovePowerSupply_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_RemoveStorage_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_RemoveUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.DeleteUser
+	var arg0 int
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNDeleteUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐDeleteUser(ctx, tmp)
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateCPU_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedCPU
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedCPU2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedCPU(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateCase_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedCase
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedCase2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedCase(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateGraphicCard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedGraphicCard
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedGraphicCard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedGraphicCard(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateMemory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedMemory
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedMemory2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMemory(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateMonitor_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedMonitor
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedMonitor2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMonitor(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateMotherboard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.UpdatedMotherboard
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalOUpdatedMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMotherboard(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateOperatingSystem_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedOs
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedOS2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedOs(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdatePowerSupply_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedPowerSupply
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedPowerSupply2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedPowerSupply(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateStorage_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedStorage
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedStorage2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedStorage(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_UpdateUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdatedUser
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdatedUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedUser(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createCPU_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewCPU
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewCPU2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewCPU(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createCase_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewCase
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewCase2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewCase(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createGraphicCard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewGraphicCard
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewGraphicCard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewGraphicCard(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createMemory_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewMemory
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewMemory2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMemory(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createMonitor_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewMonitor
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewMonitor2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMonitor(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createMotherboard_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewMotherBoard
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewMotherBoard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMotherBoard(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createOperatingSystem_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewOs
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewOS2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewOs(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createPowerSupply_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewPowerSupply
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewPowerSupply2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewPowerSupply(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createStorage_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.NewStorage
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewStorage2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewStorage(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1337,6 +2085,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -2964,7 +3727,7 @@ func (ec *executionContext) _Mutation_RemoveUser(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RemoveUser(rctx, args["input"].(model.DeleteUser))
+		return ec.resolvers.Mutation().RemoveUser(rctx, args["input"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2979,6 +3742,1182 @@ func (ec *executionContext) _Mutation_RemoveUser(ctx context.Context, field grap
 	res := resTmp.(bool)
 	fc.Result = res
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateUser_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateUser(rctx, args["input"].(model.UpdatedUser))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createMotherboard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createMotherboard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMotherboard(rctx, args["input"].(model.NewMotherBoard))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Motherboard)
+	fc.Result = res
+	return ec.marshalNMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboard(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveMotherboard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveMotherboard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveMotherboard(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateMotherboard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateMotherboard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMotherboard(rctx, args["input"].(*model.UpdatedMotherboard))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Motherboard)
+	fc.Result = res
+	return ec.marshalNMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboard(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createCPU(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createCPU_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateCPU(rctx, args["input"].(model.NewCPU))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CPU)
+	fc.Result = res
+	return ec.marshalNCPU2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPU(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveCPU(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveCPU_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveCPU(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateCPU(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateCPU_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateCPU(rctx, args["input"].(model.UpdatedCPU))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CPU)
+	fc.Result = res
+	return ec.marshalNCPU2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPU(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createStorage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createStorage_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateStorage(rctx, args["input"].(model.NewStorage))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Storage)
+	fc.Result = res
+	return ec.marshalNStorage2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveStorage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveStorage_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveStorage(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateStorage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateStorage_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateStorage(rctx, args["input"].(model.UpdatedStorage))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Storage)
+	fc.Result = res
+	return ec.marshalNStorage2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createMemory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createMemory_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMemory(rctx, args["input"].(model.NewMemory))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Memory)
+	fc.Result = res
+	return ec.marshalNMemory2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemory(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveMemory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveMemory_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveMemory(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateMemory(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateMemory_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMemory(rctx, args["input"].(model.UpdatedMemory))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Memory)
+	fc.Result = res
+	return ec.marshalNMemory2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemory(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createPowerSupply(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createPowerSupply_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreatePowerSupply(rctx, args["input"].(model.NewPowerSupply))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.PowerSupply)
+	fc.Result = res
+	return ec.marshalNPowerSupply2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupply(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemovePowerSupply(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemovePowerSupply_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemovePowerSupply(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdatePowerSupply(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdatePowerSupply_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdatePowerSupply(rctx, args["input"].(model.UpdatedPowerSupply))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.PowerSupply)
+	fc.Result = res
+	return ec.marshalNPowerSupply2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupply(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createGraphicCard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createGraphicCard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateGraphicCard(rctx, args["input"].(model.NewGraphicCard))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GraphicsCard)
+	fc.Result = res
+	return ec.marshalNGraphicsCard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCard(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveGraphicCard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveGraphicCard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveGraphicCard(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateGraphicCard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateGraphicCard_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateGraphicCard(rctx, args["input"].(model.UpdatedGraphicCard))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.GraphicsCard)
+	fc.Result = res
+	return ec.marshalNGraphicsCard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCard(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createCase(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createCase_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateCase(rctx, args["input"].(model.NewCase))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Case)
+	fc.Result = res
+	return ec.marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCase(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveCase(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveCase_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveCase(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateCase(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateCase_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateCase(rctx, args["input"].(model.UpdatedCase))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Case)
+	fc.Result = res
+	return ec.marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCase(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createMonitor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createMonitor_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMonitor(rctx, args["input"].(model.NewMonitor))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Monitor)
+	fc.Result = res
+	return ec.marshalNMonitor2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveMonitor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveMonitor_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveMonitor(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateMonitor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateMonitor_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMonitor(rctx, args["input"].(model.UpdatedMonitor))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Monitor)
+	fc.Result = res
+	return ec.marshalNMonitor2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createOperatingSystem(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createOperatingSystem_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateOperatingSystem(rctx, args["input"].(model.NewOs))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.OperatingSystem)
+	fc.Result = res
+	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_RemoveOperatingSystem(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_RemoveOperatingSystem_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveOperatingSystem(rctx, args["input"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_UpdateOperatingSystem(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_UpdateOperatingSystem_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateOperatingSystem(rctx, args["input"].(model.UpdatedOs))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.OperatingSystem)
+	fc.Result = res
+	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _OperatingSystem_name(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
@@ -3188,784 +5127,6 @@ func (ec *executionContext) _PC_id(ctx context.Context, field graphql.CollectedF
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _PC_motherboard(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Motherboard, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Motherboard)
-	fc.Result = res
-	return ec.marshalNMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboard(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_cpu(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CPU, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.CPU)
-	fc.Result = res
-	return ec.marshalNCPU2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPU(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_ram(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.RAM, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Memory)
-	fc.Result = res
-	return ec.marshalNMemory2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemory(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_storage(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Storage, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Storage)
-	fc.Result = res
-	return ec.marshalNStorage2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_powersupply(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Powersupply, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.PowerSupply)
-	fc.Result = res
-	return ec.marshalNPowerSupply2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupply(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_graphic_card(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.GraphicCard, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.GraphicsCard)
-	fc.Result = res
-	return ec.marshalNGraphicsCard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCard(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_case(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Case, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Case)
-	fc.Result = res
-	return ec.marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCase(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_monitor(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Monitor, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Monitor)
-	fc.Result = res
-	return ec.marshalNMonitor2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitor(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_operating_system(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OperatingSystem, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.OperatingSystem)
-	fc.Result = res
-	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PC_cost(ctx context.Context, field graphql.CollectedField, obj *model.Pc) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PC",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Cost, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalNFloat2float64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Part_name(ctx context.Context, field graphql.CollectedField, obj *model.Part) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Part",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Part_id(ctx context.Context, field graphql.CollectedField, obj *model.Part) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Part",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Part_company(ctx context.Context, field graphql.CollectedField, obj *model.Part) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Part",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Company, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Part_price(ctx context.Context, field graphql.CollectedField, obj *model.Part) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Part",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Price, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalNFloat2float64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_motherboards(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Motherboards, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Motherboard)
-	fc.Result = res
-	return ec.marshalOMotherboard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboardᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_cpus(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Cpus, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.CPU)
-	fc.Result = res
-	return ec.marshalOCPU2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPUᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_rams(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Rams, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Memory)
-	fc.Result = res
-	return ec.marshalOMemory2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemoryᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_storages(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Storages, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Storage)
-	fc.Result = res
-	return ec.marshalOStorage2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorageᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_powersupplies(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Powersupplies, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.PowerSupply)
-	fc.Result = res
-	return ec.marshalOPowerSupply2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupplyᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_graphic_cards(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.GraphicCards, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.GraphicsCard)
-	fc.Result = res
-	return ec.marshalOGraphicsCard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCardᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_cases(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Cases, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Case)
-	fc.Result = res
-	return ec.marshalOCase2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCaseᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_monitors(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Monitors, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Monitor)
-	fc.Result = res
-	return ec.marshalOMonitor2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitorᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Parts_DB_operating_systems(ctx context.Context, field graphql.CollectedField, obj *model.PartsDb) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Parts_DB",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OperatingSystems, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*model.OperatingSystem)
-	fc.Result = res
-	return ec.marshalOOperatingSystem2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystemᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _PowerSupply_name(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4173,41 +5334,6 @@ func (ec *executionContext) _PowerSupply_price(ctx context.Context, field graphq
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Todos(rctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Todo)
-	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Query_users(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4243,7 +5369,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_parts_db(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -4259,9 +5385,16 @@ func (ec *executionContext) _Query_parts_db(ctx context.Context, field graphql.C
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_user_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().PartsDb(rctx)
+		return ec.resolvers.Query().User(rctx, args["id"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4273,9 +5406,9 @@ func (ec *executionContext) _Query_parts_db(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.PartsDb)
+	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNParts_DB2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPartsDb(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_motherboard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -4906,146 +6039,6 @@ func (ec *executionContext) _Storage_price(ctx context.Context, field graphql.Co
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Todo",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Todo().ID(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Todo_text(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Todo",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Text, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Todo_done(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Todo",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Done, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Todo",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Todo().User(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5184,6 +6177,41 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_pc_collection_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PcCollectionID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -6308,8 +7336,8 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputDeleteUser(ctx context.Context, obj interface{}) (model.DeleteUser, error) {
-	var it model.DeleteUser
+func (ec *executionContext) unmarshalInputNewCPU(ctx context.Context, obj interface{}) (model.NewCPU, error) {
+	var it model.NewCPU
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -6317,11 +7345,51 @@ func (ec *executionContext) unmarshalInputDeleteUser(ctx context.Context, obj in
 
 	for k, v := range asMap {
 		switch k {
-		case "id":
+		case "name":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cores":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cores"))
+			it.Cores, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "clockspeed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clockspeed"))
+			it.Clockspeed, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "sockets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sockets"))
+			it.Sockets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6331,8 +7399,8 @@ func (ec *executionContext) unmarshalInputDeleteUser(ctx context.Context, obj in
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj interface{}) (model.NewTodo, error) {
-	var it model.NewTodo
+func (ec *executionContext) unmarshalInputNewCase(ctx context.Context, obj interface{}) (model.NewCase, error) {
+	var it model.NewCase
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -6340,19 +7408,476 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj inter
 
 	for k, v := range asMap {
 		switch k {
-		case "text":
+		case "name":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("text"))
-			it.Text, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "userId":
+		case "company":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			it.UserID, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "windowed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("windowed"))
+			it.Windowed, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "material":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("material"))
+			it.Material, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewGraphicCard(ctx context.Context, obj interface{}) (model.NewGraphicCard, error) {
+	var it model.NewGraphicCard
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "gpu":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gpu"))
+			it.Gpu, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "memory":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("memory"))
+			it.Memory, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "core_clock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("core_clock"))
+			it.CoreClock, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewMemory(ctx context.Context, obj interface{}) (model.NewMemory, error) {
+	var it model.NewMemory
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cas_latency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cas_latency"))
+			it.CasLatency, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "memory_channels":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("memory_channels"))
+			it.MemoryChannels, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewMonitor(ctx context.Context, obj interface{}) (model.NewMonitor, error) {
+	var it model.NewMonitor
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "resolution":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("resolution"))
+			it.Resolution, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "hz":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hz"))
+			it.Hz, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewMotherBoard(ctx context.Context, obj interface{}) (model.NewMotherBoard, error) {
+	var it model.NewMotherBoard
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "form_factor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("form_factor"))
+			it.FormFactor, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "sockets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sockets"))
+			it.Sockets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "chipsets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("chipsets"))
+			it.Chipsets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "pci_slots":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pci_slots"))
+			it.PciSlots, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "ram_slots":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ram_slots"))
+			it.RAMSlots, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "internal_ports":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("internal_ports"))
+			it.InternalPorts, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "external_ports":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("external_ports"))
+			it.ExternalPorts, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewOS(ctx context.Context, obj interface{}) (model.NewOs, error) {
+	var it model.NewOs
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewPowerSupply(ctx context.Context, obj interface{}) (model.NewPowerSupply, error) {
+	var it model.NewPowerSupply
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "form_factor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("form_factor"))
+			it.FormFactor, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "modularity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("modularity"))
+			it.Modularity, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewStorage(ctx context.Context, obj interface{}) (model.NewStorage, error) {
+	var it model.NewStorage
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "format":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("format"))
+			it.Format, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "capacity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("capacity"))
+			it.Capacity, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "speed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("speed"))
+			it.Speed, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6371,6 +7896,676 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 
 	for k, v := range asMap {
 		switch k {
+		case "username":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("username"))
+			it.Username, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			it.Password, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedCPU(ctx context.Context, obj interface{}) (model.UpdatedCPU, error) {
+	var it model.UpdatedCPU
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cores":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cores"))
+			it.Cores, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "clockspeed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clockspeed"))
+			it.Clockspeed, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "sockets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sockets"))
+			it.Sockets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedCase(ctx context.Context, obj interface{}) (model.UpdatedCase, error) {
+	var it model.UpdatedCase
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "windowed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("windowed"))
+			it.Windowed, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "material":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("material"))
+			it.Material, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedGraphicCard(ctx context.Context, obj interface{}) (model.UpdatedGraphicCard, error) {
+	var it model.UpdatedGraphicCard
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "gpu":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gpu"))
+			it.Gpu, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "memory":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("memory"))
+			it.Memory, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "core_clock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("core_clock"))
+			it.CoreClock, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedMemory(ctx context.Context, obj interface{}) (model.UpdatedMemory, error) {
+	var it model.UpdatedMemory
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "frequency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("frequency"))
+			it.Frequency, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "cas_latency":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cas_latency"))
+			it.CasLatency, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "memory_channels":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("memory_channels"))
+			it.MemoryChannels, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedMonitor(ctx context.Context, obj interface{}) (model.UpdatedMonitor, error) {
+	var it model.UpdatedMonitor
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "resolution":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("resolution"))
+			it.Resolution, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "hz":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hz"))
+			it.Hz, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedMotherboard(ctx context.Context, obj interface{}) (model.UpdatedMotherboard, error) {
+	var it model.UpdatedMotherboard
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "form_factor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("form_factor"))
+			it.FormFactor, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "sockets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sockets"))
+			it.Sockets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "chipsets":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("chipsets"))
+			it.Chipsets, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "pci_slots":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pci_slots"))
+			it.PciSlots, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "ram_slots":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ram_slots"))
+			it.RAMSlots, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "internal_ports":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("internal_ports"))
+			it.InternalPorts, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "external_ports":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("external_ports"))
+			it.ExternalPorts, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedOS(ctx context.Context, obj interface{}) (model.UpdatedOs, error) {
+	var it model.UpdatedOs
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedPowerSupply(ctx context.Context, obj interface{}) (model.UpdatedPowerSupply, error) {
+	var it model.UpdatedPowerSupply
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "form_factor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("form_factor"))
+			it.FormFactor, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "modularity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("modularity"))
+			it.Modularity, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedStorage(ctx context.Context, obj interface{}) (model.UpdatedStorage, error) {
+	var it model.UpdatedStorage
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "company":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
+			it.Company, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "format":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("format"))
+			it.Format, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "capacity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("capacity"))
+			it.Capacity, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "speed":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("speed"))
+			it.Speed, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "price":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("price"))
+			it.Price, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdatedUser(ctx context.Context, obj interface{}) (model.UpdatedUser, error) {
+	var it model.UpdatedUser
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	for k, v := range asMap {
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "username":
 			var err error
 
@@ -6993,6 +9188,286 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "UpdateUser":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateUser(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createMotherboard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMotherboard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveMotherboard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveMotherboard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateMotherboard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateMotherboard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createCPU":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createCPU(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveCPU":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveCPU(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateCPU":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateCPU(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createStorage":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createStorage(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveStorage":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveStorage(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateStorage":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateStorage(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createMemory":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMemory(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveMemory":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveMemory(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateMemory":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateMemory(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createPowerSupply":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createPowerSupply(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemovePowerSupply":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemovePowerSupply(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdatePowerSupply":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdatePowerSupply(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createGraphicCard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createGraphicCard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveGraphicCard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveGraphicCard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateGraphicCard":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateGraphicCard(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createCase":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createCase(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveCase":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveCase(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateCase":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateCase(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createMonitor":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMonitor(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveMonitor":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveMonitor(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateMonitor":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateMonitor(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createOperatingSystem":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createOperatingSystem(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "RemoveOperatingSystem":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_RemoveOperatingSystem(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdateOperatingSystem":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_UpdateOperatingSystem(ctx, field)
+			}
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, innerFunc)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7092,251 +9567,6 @@ func (ec *executionContext) _PC(ctx context.Context, sel ast.SelectionSet, obj *
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "motherboard":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_motherboard(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "cpu":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_cpu(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "ram":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_ram(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "storage":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_storage(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "powersupply":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_powersupply(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "graphic_card":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_graphic_card(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "case":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_case(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "monitor":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_monitor(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "operating_system":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_operating_system(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "cost":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PC_cost(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var partImplementors = []string{"Part"}
-
-func (ec *executionContext) _Part(ctx context.Context, sel ast.SelectionSet, obj *model.Part) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, partImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Part")
-		case "name":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Part_name(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "id":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Part_id(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "company":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Part_company(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "price":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Part_price(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var parts_DBImplementors = []string{"Parts_DB"}
-
-func (ec *executionContext) _Parts_DB(ctx context.Context, sel ast.SelectionSet, obj *model.PartsDb) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, parts_DBImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Parts_DB")
-		case "motherboards":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_motherboards(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "cpus":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_cpus(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "rams":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_rams(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "storages":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_storages(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "powersupplies":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_powersupplies(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "graphic_cards":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_graphic_cards(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "cases":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_cases(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "monitors":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_monitors(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-		case "operating_systems":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Parts_DB_operating_systems(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7445,29 +9675,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "todos":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_todos(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return rrm(innerCtx)
-			})
 		case "users":
 			field := field
 
@@ -7491,7 +9698,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "parts_db":
+		case "user":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -7500,7 +9707,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_parts_db(ctx, field)
+				res = ec._Query_user(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -7834,87 +10041,6 @@ func (ec *executionContext) _Storage(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
-var todoImplementors = []string{"Todo"}
-
-func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj *model.Todo) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, todoImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Todo")
-		case "id":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Todo_id(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "text":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Todo_text(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "done":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Todo_done(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "user":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Todo_user(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var userImplementors = []string{"User"}
 
 func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
@@ -7958,6 +10084,16 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 		case "email":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._User_email(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "pc_collection_id":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._User_pc_collection_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8400,6 +10536,10 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
+func (ec *executionContext) marshalNCPU2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPU(ctx context.Context, sel ast.SelectionSet, v model.CPU) graphql.Marshaler {
+	return ec._CPU(ctx, sel, &v)
+}
+
 func (ec *executionContext) marshalNCPU2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPUᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CPU) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -8452,6 +10592,10 @@ func (ec *executionContext) marshalNCPU2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑto
 		return graphql.Null
 	}
 	return ec._CPU(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNCase2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCase(ctx context.Context, sel ast.SelectionSet, v model.Case) graphql.Marshaler {
+	return ec._Case(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNCase2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Case) graphql.Marshaler {
@@ -8508,11 +10652,6 @@ func (ec *executionContext) marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑt
 	return ec._Case(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNDeleteUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐDeleteUser(ctx context.Context, v interface{}) (model.DeleteUser, error) {
-	res, err := ec.unmarshalInputDeleteUser(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	res, err := graphql.UnmarshalFloatContext(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -8526,6 +10665,10 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 		}
 	}
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) marshalNGraphicsCard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCard(ctx context.Context, sel ast.SelectionSet, v model.GraphicsCard) graphql.Marshaler {
+	return ec._GraphicsCard(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNGraphicsCard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCardᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.GraphicsCard) graphql.Marshaler {
@@ -8597,6 +10740,10 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
+func (ec *executionContext) marshalNMemory2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemory(ctx context.Context, sel ast.SelectionSet, v model.Memory) graphql.Marshaler {
+	return ec._Memory(ctx, sel, &v)
+}
+
 func (ec *executionContext) marshalNMemory2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemoryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Memory) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -8649,6 +10796,10 @@ func (ec *executionContext) marshalNMemory2ᚖgithubᚗcomᚋcantuc40ᚋgqlgen�
 		return graphql.Null
 	}
 	return ec._Memory(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMonitor2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitor(ctx context.Context, sel ast.SelectionSet, v model.Monitor) graphql.Marshaler {
+	return ec._Monitor(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNMonitor2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Monitor) graphql.Marshaler {
@@ -8705,6 +10856,10 @@ func (ec *executionContext) marshalNMonitor2ᚖgithubᚗcomᚋcantuc40ᚋgqlgen�
 	return ec._Monitor(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNMotherboard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboard(ctx context.Context, sel ast.SelectionSet, v model.Motherboard) graphql.Marshaler {
+	return ec._Motherboard(ctx, sel, &v)
+}
+
 func (ec *executionContext) marshalNMotherboard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboardᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Motherboard) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -8759,9 +10914,58 @@ func (ec *executionContext) marshalNMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgql
 	return ec._Motherboard(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNNewCPU2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewCPU(ctx context.Context, v interface{}) (model.NewCPU, error) {
+	res, err := ec.unmarshalInputNewCPU(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewCase2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewCase(ctx context.Context, v interface{}) (model.NewCase, error) {
+	res, err := ec.unmarshalInputNewCase(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewGraphicCard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewGraphicCard(ctx context.Context, v interface{}) (model.NewGraphicCard, error) {
+	res, err := ec.unmarshalInputNewGraphicCard(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewMemory2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMemory(ctx context.Context, v interface{}) (model.NewMemory, error) {
+	res, err := ec.unmarshalInputNewMemory(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewMonitor2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMonitor(ctx context.Context, v interface{}) (model.NewMonitor, error) {
+	res, err := ec.unmarshalInputNewMonitor(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewMotherBoard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewMotherBoard(ctx context.Context, v interface{}) (model.NewMotherBoard, error) {
+	res, err := ec.unmarshalInputNewMotherBoard(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewOS2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewOs(ctx context.Context, v interface{}) (model.NewOs, error) {
+	res, err := ec.unmarshalInputNewOS(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewPowerSupply2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewPowerSupply(ctx context.Context, v interface{}) (model.NewPowerSupply, error) {
+	res, err := ec.unmarshalInputNewPowerSupply(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewStorage2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewStorage(ctx context.Context, v interface{}) (model.NewStorage, error) {
+	res, err := ec.unmarshalInputNewStorage(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNOperatingSystem2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx context.Context, sel ast.SelectionSet, v model.OperatingSystem) graphql.Marshaler {
+	return ec._OperatingSystem(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNOperatingSystem2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystemᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OperatingSystem) graphql.Marshaler {
@@ -8818,18 +11022,8 @@ func (ec *executionContext) marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40�
 	return ec._OperatingSystem(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNParts_DB2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPartsDb(ctx context.Context, sel ast.SelectionSet, v model.PartsDb) graphql.Marshaler {
-	return ec._Parts_DB(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNParts_DB2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPartsDb(ctx context.Context, sel ast.SelectionSet, v *model.PartsDb) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._Parts_DB(ctx, sel, v)
+func (ec *executionContext) marshalNPowerSupply2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupply(ctx context.Context, sel ast.SelectionSet, v model.PowerSupply) graphql.Marshaler {
+	return ec._PowerSupply(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNPowerSupply2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupplyᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.PowerSupply) graphql.Marshaler {
@@ -8884,6 +11078,10 @@ func (ec *executionContext) marshalNPowerSupply2ᚖgithubᚗcomᚋcantuc40ᚋgql
 		return graphql.Null
 	}
 	return ec._PowerSupply(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNStorage2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx context.Context, sel ast.SelectionSet, v model.Storage) graphql.Marshaler {
+	return ec._Storage(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNStorage2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Storage) graphql.Marshaler {
@@ -8955,58 +11153,49 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTodo(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
+func (ec *executionContext) unmarshalNUpdatedCPU2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedCPU(ctx context.Context, v interface{}) (model.UpdatedCPU, error) {
+	res, err := ec.unmarshalInputUpdatedCPU(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *model.Todo) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._Todo(ctx, sel, v)
+func (ec *executionContext) unmarshalNUpdatedCase2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedCase(ctx context.Context, v interface{}) (model.UpdatedCase, error) {
+	res, err := ec.unmarshalInputUpdatedCase(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedGraphicCard2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedGraphicCard(ctx context.Context, v interface{}) (model.UpdatedGraphicCard, error) {
+	res, err := ec.unmarshalInputUpdatedGraphicCard(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedMemory2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMemory(ctx context.Context, v interface{}) (model.UpdatedMemory, error) {
+	res, err := ec.unmarshalInputUpdatedMemory(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedMonitor2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMonitor(ctx context.Context, v interface{}) (model.UpdatedMonitor, error) {
+	res, err := ec.unmarshalInputUpdatedMonitor(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedOS2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedOs(ctx context.Context, v interface{}) (model.UpdatedOs, error) {
+	res, err := ec.unmarshalInputUpdatedOS(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedPowerSupply2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedPowerSupply(ctx context.Context, v interface{}) (model.UpdatedPowerSupply, error) {
+	res, err := ec.unmarshalInputUpdatedPowerSupply(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedStorage2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedStorage(ctx context.Context, v interface{}) (model.UpdatedStorage, error) {
+	res, err := ec.unmarshalInputUpdatedStorage(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdatedUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedUser(ctx context.Context, v interface{}) (model.UpdatedUser, error) {
+	res, err := ec.unmarshalInputUpdatedUser(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUser2githubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
@@ -9346,429 +11535,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalOCPU2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPUᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CPU) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCPU2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCPU(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOCase2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Case) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCase2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCase(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOGraphicsCard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCardᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.GraphicsCard) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNGraphicsCard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGraphicsCard(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOMemory2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemoryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Memory) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNMemory2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMemory(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOMonitor2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitorᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Monitor) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNMonitor2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMonitor(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOMotherboard2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboardᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Motherboard) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMotherboard(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOOperatingSystem2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystemᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OperatingSystem) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOPowerSupply2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupplyᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.PowerSupply) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNPowerSupply2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPowerSupply(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalOStorage2ᚕᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Storage) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNStorage2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐStorage(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -9793,6 +11559,14 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOUpdatedMotherboard2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUpdatedMotherboard(ctx context.Context, v interface{}) (*model.UpdatedMotherboard, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputUpdatedMotherboard(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

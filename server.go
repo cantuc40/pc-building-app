@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -39,20 +40,22 @@ func initDB() {
 	db.Exec("CREATE DATABASE pc_builder_db")
 	db.Exec("USE pc_builder_db")
 
+	start := time.Now()
 	// Migration to create tables for all computer parts and users
 	db.AutoMigrate(
 		&model.User{},
-		//&model.PartsDb{},
-		//&model.Motherboard{},
-		//&model.CPU{},
-		//&model.Storage{},
-		//&model.Memory{},
-		//&model.PowerSupply{},
-		//&model.GraphicsCard{},
-		//&model.Case{},
-		//&model.Monitor{},
-		//&model.OperatingSystem{},
+		&model.Motherboard{},
+		&model.CPU{},
+		&model.Storage{},
+		&model.Memory{},
+		&model.PowerSupply{},
+		&model.GraphicsCard{},
+		&model.Case{},
+		&model.Monitor{},
+		&model.OperatingSystem{},
 	)
+
+	fmt.Println(time.Since(start))
 }
 
 func main() {

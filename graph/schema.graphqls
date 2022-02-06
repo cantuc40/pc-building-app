@@ -5,18 +5,54 @@
 
 #Mutation Schema
 type Mutation {
+  createUser            (input: NewUser!):            User!
+  RemoveUser            (input: Int!):                Boolean!
+  UpdateUser            (input: UpdatedUser!):        User!
 
-  #POST
-  createUser(input: NewUser!): User!
-  RemoveUser(input: DeleteUser!): Boolean!
-  #CreateNewPart(input: NewPart!): Part!
+  createMotherboard     (input: NewMotherBoard!):     Motherboard!
+  RemoveMotherboard     (input: Int!):                Boolean!
+  UpdateMotherboard     (input: UpdatedMotherboard):  Motherboard!
+
+  createCPU             (input: NewCPU!):             CPU!
+  RemoveCPU             (input: Int!):                Boolean!
+  UpdateCPU             (input: UpdatedCPU!):         CPU!
+
+  createStorage         (input: NewStorage!):         Storage!
+  RemoveStorage         (input: Int!):                Boolean!
+  UpdateStorage         (input: UpdatedStorage!):     Storage!
+
+  createMemory          (input: NewMemory!):          Memory!
+  RemoveMemory          (input: Int!):                Boolean!
+  UpdateMemory          (input: UpdatedMemory!):      Memory!
+
+  createPowerSupply     (input: NewPowerSupply!):     PowerSupply!
+  RemovePowerSupply     (input: Int!):                Boolean!
+  UpdatePowerSupply     (input: UpdatedPowerSupply!): PowerSupply!
+
+  createGraphicCard     (input: NewGraphicCard!):     GraphicsCard!
+  RemoveGraphicCard     (input: Int!):                Boolean!
+  UpdateGraphicCard     (input: UpdatedGraphicCard!): GraphicsCard!
+
+  createCase            (input: NewCase!):            Case!
+  RemoveCase            (input: Int!):                Boolean!
+  UpdateCase            (input: UpdatedCase!):        Case!
+  
+  createMonitor         (input: NewMonitor!):         Monitor!
+  RemoveMonitor         (input: Int!):                Boolean!
+  UpdateMonitor         (input: UpdatedMonitor!):     Monitor!
+
+  createOperatingSystem (input: NewOS!):              OperatingSystem!
+  RemoveOperatingSystem (input: Int!):                Boolean!
+  UpdateOperatingSystem (input: UpdatedOS!):          OperatingSystem!
+
 }
+
+
 
 #Query Schema
 type Query {
-  todos: [Todo!]!
   users: [User!]!
-  parts_db: Parts_DB!
+  user(id: Int!): User!
   motherboard: [Motherboard!]!
   cpus: [CPU!]!
   storages: [Storage!]!
@@ -29,57 +65,30 @@ type Query {
 }
 
 
-#Object Schemas
-type Todo {
-  id: Int!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
+#--------------------Object Schemas------------------------------------------------------
 type User {
   id: Int!
   username: String!
   password: String!
   email: String!
+  pc_collection_id: Int!
   #pcs: [PC!]
 }
 
 type PC {
   name: String!
   id: Int!
-  motherboard: Motherboard!
-  cpu: CPU!
-  ram: Memory!
-  storage: Storage!
-  powersupply: PowerSupply!
-  graphic_card: GraphicsCard!
-  case: Case!
-  monitor: Monitor!
-  operating_system: OperatingSystem!
-  cost: Float!
+#  motherboard_id: Motherboard!
+#  cpu: CPU!
+#  ram: Memory!
+#  storage: Storage!
+#  powersupply: PowerSupply!
+#  graphic_card: GraphicsCard!
+#  case: Case!
+#  monitor: Monitor!
+#  operating_system: OperatingSystem!
+#  cost: Float!
 
-}
-
-
-type Parts_DB {
-  motherboards: [Motherboard!]
-  cpus: [CPU!]
-  rams: [Memory!]
-  storages: [Storage!]
-  powersupplies: [PowerSupply!]
-  graphic_cards: [GraphicsCard!]
-  cases: [Case!]
-  monitors: [Monitor!]
-  operating_systems: [OperatingSystem!]
-
-}
-
-type Part {
-  name: String!
-  id: Int!
-  company: String!
-  price: Float!
 }
 
 type Motherboard  {
@@ -179,39 +188,193 @@ type OperatingSystem {
   #users: [User!]
 }
 
-#Inputs
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
+#-------------------------------Inputs----------------------------------------------------------------------------------------
 input NewUser {
   username: String!
   password: String!
   email: String!
 }
 
-#input NewPart {
-
- # new_motherboard: Motherboard!
-  #new_cpu: CPU!
-#  new_ram: Memory!
-#  new_storage: Storage!
-#  new_powersupplie: PowerSupply!
-#  new_graphic_card: GraphicsCard!
-#  new_case: Case!
-#  new_monitor: Monitor!
-#  new_operating_system: OperatingSystem!
-
-#}
-
-input DeleteUser {
+input UpdatedUser {
   id: Int!
+  username: String!
+  password: String!
+  email: String!
 }
 
 
 
+input NewMotherBoard{
+  name: String!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
 
+}
+input UpdatedMotherboard {
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+
+}
+
+
+input NewCPU {
+  name: String!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+input UpdatedCPU {
+  name: String!
+  id: Int!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+
+
+input NewStorage {
+  name: String!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+input UpdatedStorage {
+  name: String!
+  id: Int!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+
+
+input NewMemory {
+  name: String!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+input UpdatedMemory {
+  name: String!
+  id: Int!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+
+
+input NewPowerSupply{
+  name: String!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+input UpdatedPowerSupply{
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+
+input NewGraphicCard{
+  name: String!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+input UpdatedGraphicCard{
+  name: String!
+  id: Int!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+
+input NewCase{
+  name: String!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+input UpdatedCase{
+  name: String!
+  id: Int!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+
+input NewMonitor{
+  name: String!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+input UpdatedMonitor{
+  name: String!
+  id: Int!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+
+input NewOS{
+  name: String!
+  company: String
+  price: Int!
+}
+input UpdatedOS{
+  name: String!
+  id: Int!
+  company: String
+  price: Int!
+}
 
 
 
