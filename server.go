@@ -19,9 +19,12 @@ const defaultPort = "8083"
 
 var db *gorm.DB
 
+//admin
+//Admin123$#45
+
 func initDB() {
 	var err error
-	dataSourceName := "root:@tcp(localhost:3306)/?parseTime=True"
+	dataSourceName := "admin:Admin123$#45@tcp(localhost:3306)/?parseTime=True"
 	db, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 
 	if err != nil {
@@ -33,22 +36,22 @@ func initDB() {
 
 	// Create the database. This is a one-time step.
 	// Comment out if running multiple times - You may see an error otherwise
-	db.Exec("CREATE DATABASE test_db")
-	db.Exec("USE test_db")
+	db.Exec("CREATE DATABASE pc_builder_db")
+	db.Exec("USE pc_builder_db")
 
-	// Migration to create tables for Order and Item schema
+	// Migration to create tables for all computer parts and users
 	db.AutoMigrate(
 		&model.User{},
-		&model.PartsDb{},
-		&model.Motherboard{},
-		&model.CPU{},
-		&model.Storage{},
-		&model.Memory{},
-		&model.PowerSupply{},
-		&model.GraphicsCard{},
-		&model.Case{},
-		&model.Monitor{},
-		&model.OperatingSystem{},
+		//&model.PartsDb{},
+		//&model.Motherboard{},
+		//&model.CPU{},
+		//&model.Storage{},
+		//&model.Memory{},
+		//&model.PowerSupply{},
+		//&model.GraphicsCard{},
+		//&model.Case{},
+		//&model.Monitor{},
+		//&model.OperatingSystem{},
 	)
 }
 
@@ -58,9 +61,9 @@ func main() {
 		port = defaultPort
 	}
 
-	//initDB()
+	initDB()
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
-		//DB: db,
+		DB: db,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

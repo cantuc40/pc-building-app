@@ -31,23 +31,23 @@ type Query {
 
 #Object Schemas
 type Todo {
-  id: ID!
+  id: Int!
   text: String!
   done: Boolean!
   user: User!
 }
 
 type User {
-  id: ID!
+  id: Int!
   username: String!
   password: String!
   email: String!
-  pcs: [PC!]
+  #pcs: [PC!]
 }
 
 type PC {
   name: String!
-  id: ID!
+  id: Int!
   motherboard: Motherboard!
   cpu: CPU!
   ram: Memory!
@@ -77,14 +77,14 @@ type Parts_DB {
 
 type Part {
   name: String!
-  id: ID!
+  id: Int!
   company: String!
   price: Float!
 }
 
 type Motherboard  {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   form_factor: String!
   sockets: Int!
@@ -94,89 +94,89 @@ type Motherboard  {
   internal_ports: Int!
   external_ports: Int!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type CPU {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   cores: Int!
   clockspeed: String!
   sockets: Int!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type Storage {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   format: String!
   capacity: String!
   speed: String!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type Memory {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   frequency: String!
   cas_latency: String!
   memory_channels: String!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type PowerSupply {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   form_factor: String!
   modularity: String!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type GraphicsCard {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   gpu: String!
   memory: Int!
   core_clock: String!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type Case {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   windowed: Boolean
   material: String!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type Monitor {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   resolution: String!
   hz: Int!
   price: Float!
-  users: [User!]
+  #users: [User!]
 }
 
 type OperatingSystem {
   name: String!
-  id: ID!
+  id: Int!
   company: String
   price: Int!
-  users: [User!]
+  #users: [User!]
 }
 
 #Inputs
@@ -206,7 +206,7 @@ input NewUser {
 #}
 
 input DeleteUser {
-  id: ID!
+  id: Int!
 }
 
 

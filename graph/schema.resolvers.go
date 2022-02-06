@@ -6,6 +6,7 @@ package graph
 import (
 	"context"
 	"fmt"
+	"log"
 	"math/rand"
 
 	"github.com/cantuc40/gqlgen-todos/graph/generated"
@@ -14,17 +15,21 @@ import (
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	newuser := &model.User{
-		ID:       fmt.Sprintf("T%d", rand.Int()),
+		ID:       rand.Int(),
 		Username: input.Username,
 		Password: input.Password,
 		Email:    input.Email,
 	}
+
+	r.DB.Create(&newuser)
 	r.users = append(r.users, newuser)
+	log.Println("User added")
 	return newuser, nil
 }
 
 func (r *mutationResolver) RemoveUser(ctx context.Context, input model.DeleteUser) (bool, error) {
-	//r.DB.Where("id = ?", input.ID).Delete(&model.User{})
+	r.DB.Where("id = ?", input.ID).Delete(&model.User{})
+	log.Println("User Deleted")
 	return true, nil
 }
 
@@ -74,6 +79,10 @@ func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) 
 
 func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
 	return r.parts.OperatingSystems, nil
+}
+
+func (r *todoResolver) ID(ctx context.Context, obj *model.Todo) (int, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
