@@ -11,7 +11,16 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	users []*model.User
+	users         []*model.User
+	motherboards  []*model.Motherboard
+	OSs           []*model.OperatingSystem
+	cpus          []*model.CPU
+	storages      []*model.Storage
+	memories      []*model.Memory
+	powersupplies []*model.PowerSupply
+	graphiccards  []*model.GraphicsCard
+	cases         []*model.Case
+	monitors      []*model.Monitor
 	//parts model.PartsDb
 	DB *gorm.DB
 }

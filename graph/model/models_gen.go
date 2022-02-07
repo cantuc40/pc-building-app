@@ -3,8 +3,8 @@
 package model
 
 type CPU struct {
-	Name       string  `json:"name"`
 	ID         int     `json:"id"`
+	Name       string  `json:"name"`
 	Company    *string `json:"company"`
 	Cores      int     `json:"cores"`
 	Clockspeed string  `json:"clockspeed"`
@@ -13,8 +13,8 @@ type CPU struct {
 }
 
 type Case struct {
-	Name     string  `json:"name"`
 	ID       int     `json:"id"`
+	Name     string  `json:"name"`
 	Company  *string `json:"company"`
 	Windowed *bool   `json:"windowed"`
 	Material string  `json:"material"`
@@ -22,8 +22,8 @@ type Case struct {
 }
 
 type GraphicsCard struct {
-	Name      string  `json:"name"`
 	ID        int     `json:"id"`
+	Name      string  `json:"name"`
 	Company   *string `json:"company"`
 	Gpu       string  `json:"gpu"`
 	Memory    int     `json:"memory"`
@@ -32,8 +32,8 @@ type GraphicsCard struct {
 }
 
 type Memory struct {
-	Name           string  `json:"name"`
 	ID             int     `json:"id"`
+	Name           string  `json:"name"`
 	Company        *string `json:"company"`
 	Frequency      string  `json:"frequency"`
 	CasLatency     string  `json:"cas_latency"`
@@ -42,8 +42,8 @@ type Memory struct {
 }
 
 type Monitor struct {
-	Name       string  `json:"name"`
 	ID         int     `json:"id"`
+	Name       string  `json:"name"`
 	Company    *string `json:"company"`
 	Resolution string  `json:"resolution"`
 	Hz         int     `json:"hz"`
@@ -51,8 +51,8 @@ type Monitor struct {
 }
 
 type Motherboard struct {
-	Name          string  `json:"name"`
 	ID            int     `json:"id"`
+	Name          string  `json:"name"`
 	Company       *string `json:"company"`
 	FormFactor    string  `json:"form_factor"`
 	Sockets       int     `json:"sockets"`
@@ -150,8 +150,8 @@ type NewUser struct {
 }
 
 type OperatingSystem struct {
-	Name    string  `json:"name"`
 	ID      int     `json:"id"`
+	Name    string  `json:"name"`
 	Company *string `json:"company"`
 	Price   int     `json:"price"`
 }
@@ -162,8 +162,8 @@ type Pc struct {
 }
 
 type PowerSupply struct {
-	Name       string  `json:"name"`
 	ID         int     `json:"id"`
+	Name       string  `json:"name"`
 	Company    *string `json:"company"`
 	FormFactor string  `json:"form_factor"`
 	Modularity string  `json:"modularity"`
@@ -171,8 +171,8 @@ type PowerSupply struct {
 }
 
 type Storage struct {
-	Name     string  `json:"name"`
 	ID       int     `json:"id"`
+	Name     string  `json:"name"`
 	Company  *string `json:"company"`
 	Format   string  `json:"format"`
 	Capacity string  `json:"capacity"`

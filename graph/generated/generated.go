@@ -165,7 +165,7 @@ type ComplexityRoot struct {
 		GraphicsCards    func(childComplexity int) int
 		Memories         func(childComplexity int) int
 		Monitors         func(childComplexity int) int
-		Motherboard      func(childComplexity int) int
+		Motherboards     func(childComplexity int) int
 		OperatingSystems func(childComplexity int) int
 		PowerSupplies    func(childComplexity int) int
 		Storages         func(childComplexity int) int
@@ -227,7 +227,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Users(ctx context.Context) ([]*model.User, error)
 	User(ctx context.Context, id int) (*model.User, error)
-	Motherboard(ctx context.Context) ([]*model.Motherboard, error)
+	Motherboards(ctx context.Context) ([]*model.Motherboard, error)
 	Cpus(ctx context.Context) ([]*model.CPU, error)
 	Storages(ctx context.Context) ([]*model.Storage, error)
 	Memories(ctx context.Context) ([]*model.Memory, error)
@@ -1040,12 +1040,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Monitors(childComplexity), true
 
-	case "Query.motherboard":
-		if e.complexity.Query.Motherboard == nil {
+	case "Query.motherboards":
+		if e.complexity.Query.Motherboards == nil {
 			break
 		}
 
-		return e.complexity.Query.Motherboard(childComplexity), true
+		return e.complexity.Query.Motherboards(childComplexity), true
 
 	case "Query.operating_systems":
 		if e.complexity.Query.OperatingSystems == nil {
@@ -1290,7 +1290,7 @@ type Mutation {
 type Query {
   users: [User!]!
   user(id: Int!): User!
-  motherboard: [Motherboard!]!
+  motherboards: [Motherboard!]!
   cpus: [CPU!]!
   storages: [Storage!]!
   memories: [Memory!]!
@@ -1329,8 +1329,8 @@ type PC {
 }
 
 type Motherboard  {
-  name: String!
   id: Int!
+  name: String!
   company: String
   form_factor: String!
   sockets: Int!
@@ -1344,8 +1344,8 @@ type Motherboard  {
 }
 
 type CPU {
-  name: String!
   id: Int!
+  name: String!
   company: String
   cores: Int!
   clockspeed: String!
@@ -1355,8 +1355,8 @@ type CPU {
 }
 
 type Storage {
-  name: String!
   id: Int!
+  name: String!
   company: String
   format: String!
   capacity: String!
@@ -1366,8 +1366,8 @@ type Storage {
 }
 
 type Memory {
-  name: String!
   id: Int!
+  name: String!
   company: String
   frequency: String!
   cas_latency: String!
@@ -1377,8 +1377,8 @@ type Memory {
 }
 
 type PowerSupply {
-  name: String!
   id: Int!
+  name: String!
   company: String
   form_factor: String!
   modularity: String!
@@ -1387,8 +1387,8 @@ type PowerSupply {
 }
 
 type GraphicsCard {
-  name: String!
   id: Int!
+  name: String!
   company: String
   gpu: String!
   memory: Int!
@@ -1398,8 +1398,8 @@ type GraphicsCard {
 }
 
 type Case {
-  name: String!
   id: Int!
+  name: String!
   company: String
   windowed: Boolean
   material: String!
@@ -1408,8 +1408,8 @@ type Case {
 }
 
 type Monitor {
-  name: String!
   id: Int!
+  name: String!
   company: String
   resolution: String!
   hz: Int!
@@ -1418,8 +1418,8 @@ type Monitor {
 }
 
 type OperatingSystem {
-  name: String!
   id: Int!
+  name: String!
   company: String
   price: Int!
   #users: [User!]
@@ -2141,41 +2141,6 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _CPU_name(ctx context.Context, field graphql.CollectedField, obj *model.CPU) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "CPU",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _CPU_id(ctx context.Context, field graphql.CollectedField, obj *model.CPU) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2209,6 +2174,41 @@ func (ec *executionContext) _CPU_id(ctx context.Context, field graphql.Collected
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _CPU_name(ctx context.Context, field graphql.CollectedField, obj *model.CPU) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "CPU",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CPU_company(ctx context.Context, field graphql.CollectedField, obj *model.CPU) (ret graphql.Marshaler) {
@@ -2383,41 +2383,6 @@ func (ec *executionContext) _CPU_price(ctx context.Context, field graphql.Collec
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Case_name(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Case",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Case_id(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2451,6 +2416,41 @@ func (ec *executionContext) _Case_id(ctx context.Context, field graphql.Collecte
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Case_name(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Case",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Case_company(ctx context.Context, field graphql.CollectedField, obj *model.Case) (ret graphql.Marshaler) {
@@ -2587,41 +2587,6 @@ func (ec *executionContext) _Case_price(ctx context.Context, field graphql.Colle
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _GraphicsCard_name(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "GraphicsCard",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _GraphicsCard_id(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2655,6 +2620,41 @@ func (ec *executionContext) _GraphicsCard_id(ctx context.Context, field graphql.
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GraphicsCard_name(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GraphicsCard",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GraphicsCard_company(ctx context.Context, field graphql.CollectedField, obj *model.GraphicsCard) (ret graphql.Marshaler) {
@@ -2829,41 +2829,6 @@ func (ec *executionContext) _GraphicsCard_price(ctx context.Context, field graph
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Memory_name(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Memory",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Memory_id(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -2897,6 +2862,41 @@ func (ec *executionContext) _Memory_id(ctx context.Context, field graphql.Collec
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Memory_name(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Memory",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Memory_company(ctx context.Context, field graphql.CollectedField, obj *model.Memory) (ret graphql.Marshaler) {
@@ -3071,41 +3071,6 @@ func (ec *executionContext) _Memory_price(ctx context.Context, field graphql.Col
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Monitor_name(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Monitor",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Monitor_id(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3139,6 +3104,41 @@ func (ec *executionContext) _Monitor_id(ctx context.Context, field graphql.Colle
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Monitor_name(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Monitor",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Monitor_company(ctx context.Context, field graphql.CollectedField, obj *model.Monitor) (ret graphql.Marshaler) {
@@ -3278,41 +3278,6 @@ func (ec *executionContext) _Monitor_price(ctx context.Context, field graphql.Co
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Motherboard_name(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Motherboard",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Motherboard_id(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3346,6 +3311,41 @@ func (ec *executionContext) _Motherboard_id(ctx context.Context, field graphql.C
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Motherboard_name(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Motherboard",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Motherboard_company(ctx context.Context, field graphql.CollectedField, obj *model.Motherboard) (ret graphql.Marshaler) {
@@ -4920,41 +4920,6 @@ func (ec *executionContext) _Mutation_UpdateOperatingSystem(ctx context.Context,
 	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐOperatingSystem(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OperatingSystem_name(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OperatingSystem",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _OperatingSystem_id(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4988,6 +4953,41 @@ func (ec *executionContext) _OperatingSystem_id(ctx context.Context, field graph
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _OperatingSystem_name(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "OperatingSystem",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _OperatingSystem_company(ctx context.Context, field graphql.CollectedField, obj *model.OperatingSystem) (ret graphql.Marshaler) {
@@ -5127,41 +5127,6 @@ func (ec *executionContext) _PC_id(ctx context.Context, field graphql.CollectedF
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _PowerSupply_name(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PowerSupply",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _PowerSupply_id(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5195,6 +5160,41 @@ func (ec *executionContext) _PowerSupply_id(ctx context.Context, field graphql.C
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PowerSupply_name(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "PowerSupply",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PowerSupply_company(ctx context.Context, field graphql.CollectedField, obj *model.PowerSupply) (ret graphql.Marshaler) {
@@ -5411,7 +5411,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	return ec.marshalNUser2ᚖgithubᚗcomᚋcantuc40ᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_motherboard(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_motherboards(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -5429,7 +5429,7 @@ func (ec *executionContext) _Query_motherboard(ctx context.Context, field graphq
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Motherboard(rctx)
+		return ec.resolvers.Query().Motherboards(rctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5797,41 +5797,6 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Storage_name(ctx context.Context, field graphql.CollectedField, obj *model.Storage) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Storage",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Storage_id(ctx context.Context, field graphql.CollectedField, obj *model.Storage) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5865,6 +5830,41 @@ func (ec *executionContext) _Storage_id(ctx context.Context, field graphql.Colle
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Storage_name(ctx context.Context, field graphql.CollectedField, obj *model.Storage) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Storage",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Storage_company(ctx context.Context, field graphql.CollectedField, obj *model.Storage) (ret graphql.Marshaler) {
@@ -8614,9 +8614,9 @@ func (ec *executionContext) _CPU(ctx context.Context, sel ast.SelectionSet, obj 
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("CPU")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._CPU_name(ctx, field, obj)
+				return ec._CPU_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8624,9 +8624,9 @@ func (ec *executionContext) _CPU(ctx context.Context, sel ast.SelectionSet, obj 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._CPU_id(ctx, field, obj)
+				return ec._CPU_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8702,9 +8702,9 @@ func (ec *executionContext) _Case(ctx context.Context, sel ast.SelectionSet, obj
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Case")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Case_name(ctx, field, obj)
+				return ec._Case_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8712,9 +8712,9 @@ func (ec *executionContext) _Case(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Case_id(ctx, field, obj)
+				return ec._Case_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8777,9 +8777,9 @@ func (ec *executionContext) _GraphicsCard(ctx context.Context, sel ast.Selection
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("GraphicsCard")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._GraphicsCard_name(ctx, field, obj)
+				return ec._GraphicsCard_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8787,9 +8787,9 @@ func (ec *executionContext) _GraphicsCard(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._GraphicsCard_id(ctx, field, obj)
+				return ec._GraphicsCard_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8865,9 +8865,9 @@ func (ec *executionContext) _Memory(ctx context.Context, sel ast.SelectionSet, o
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Memory")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Memory_name(ctx, field, obj)
+				return ec._Memory_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8875,9 +8875,9 @@ func (ec *executionContext) _Memory(ctx context.Context, sel ast.SelectionSet, o
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Memory_id(ctx, field, obj)
+				return ec._Memory_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8953,9 +8953,9 @@ func (ec *executionContext) _Monitor(ctx context.Context, sel ast.SelectionSet, 
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Monitor")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Monitor_name(ctx, field, obj)
+				return ec._Monitor_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -8963,9 +8963,9 @@ func (ec *executionContext) _Monitor(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Monitor_id(ctx, field, obj)
+				return ec._Monitor_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9031,9 +9031,9 @@ func (ec *executionContext) _Motherboard(ctx context.Context, sel ast.SelectionS
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Motherboard")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Motherboard_name(ctx, field, obj)
+				return ec._Motherboard_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9041,9 +9041,9 @@ func (ec *executionContext) _Motherboard(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Motherboard_id(ctx, field, obj)
+				return ec._Motherboard_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9489,9 +9489,9 @@ func (ec *executionContext) _OperatingSystem(ctx context.Context, sel ast.Select
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("OperatingSystem")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._OperatingSystem_name(ctx, field, obj)
+				return ec._OperatingSystem_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9499,9 +9499,9 @@ func (ec *executionContext) _OperatingSystem(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._OperatingSystem_id(ctx, field, obj)
+				return ec._OperatingSystem_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9588,9 +9588,9 @@ func (ec *executionContext) _PowerSupply(ctx context.Context, sel ast.SelectionS
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("PowerSupply")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PowerSupply_name(ctx, field, obj)
+				return ec._PowerSupply_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9598,9 +9598,9 @@ func (ec *executionContext) _PowerSupply(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._PowerSupply_id(ctx, field, obj)
+				return ec._PowerSupply_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9721,7 +9721,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "motherboard":
+		case "motherboards":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -9730,7 +9730,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_motherboard(ctx, field)
+				res = ec._Query_motherboards(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -9963,9 +9963,9 @@ func (ec *executionContext) _Storage(ctx context.Context, sel ast.SelectionSet, 
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Storage")
-		case "name":
+		case "id":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Storage_name(ctx, field, obj)
+				return ec._Storage_id(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)
@@ -9973,9 +9973,9 @@ func (ec *executionContext) _Storage(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "id":
+		case "name":
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Storage_id(ctx, field, obj)
+				return ec._Storage_name(ctx, field, obj)
 			}
 
 			out.Values[i] = innerFunc(ctx)

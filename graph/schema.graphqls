@@ -53,7 +53,7 @@ type Mutation {
 type Query {
   users: [User!]!
   user(id: Int!): User!
-  motherboard: [Motherboard!]!
+  motherboards: [Motherboard!]!
   cpus: [CPU!]!
   storages: [Storage!]!
   memories: [Memory!]!
@@ -92,8 +92,8 @@ type PC {
 }
 
 type Motherboard  {
-  name: String!
   id: Int!
+  name: String!
   company: String
   form_factor: String!
   sockets: Int!
@@ -107,8 +107,8 @@ type Motherboard  {
 }
 
 type CPU {
-  name: String!
   id: Int!
+  name: String!
   company: String
   cores: Int!
   clockspeed: String!
@@ -118,8 +118,8 @@ type CPU {
 }
 
 type Storage {
-  name: String!
   id: Int!
+  name: String!
   company: String
   format: String!
   capacity: String!
@@ -129,8 +129,8 @@ type Storage {
 }
 
 type Memory {
-  name: String!
   id: Int!
+  name: String!
   company: String
   frequency: String!
   cas_latency: String!
@@ -140,8 +140,8 @@ type Memory {
 }
 
 type PowerSupply {
-  name: String!
   id: Int!
+  name: String!
   company: String
   form_factor: String!
   modularity: String!
@@ -150,8 +150,8 @@ type PowerSupply {
 }
 
 type GraphicsCard {
-  name: String!
   id: Int!
+  name: String!
   company: String
   gpu: String!
   memory: Int!
@@ -161,8 +161,8 @@ type GraphicsCard {
 }
 
 type Case {
-  name: String!
   id: Int!
+  name: String!
   company: String
   windowed: Boolean
   material: String!
@@ -171,8 +171,8 @@ type Case {
 }
 
 type Monitor {
-  name: String!
   id: Int!
+  name: String!
   company: String
   resolution: String!
   hz: Int!
@@ -181,8 +181,8 @@ type Monitor {
 }
 
 type OperatingSystem {
-  name: String!
   id: Int!
+  name: String!
   company: String
   price: Int!
   #users: [User!]
