@@ -112,15 +112,36 @@ func (r *mutationResolver) UpdateMotherboard(ctx context.Context, input *model.U
 
 //------------------------CPU Mutations-------------------------
 func (r *mutationResolver) CreateCPU(ctx context.Context, input model.NewCPU) (*model.CPU, error) {
-	panic(fmt.Errorf("not implemented"))
+	newcpu := &model.CPU{
+		ID:         rand.Int(),
+		Name:       input.Name,
+		Company:    input.Company,
+		Cores:      input.Cores,
+		Clockspeed: input.Clockspeed,
+		Sockets:    input.Sockets,
+		Price:      input.Price,
+	}
+	r.DB.Create(&newcpu)
+	log.Println("CPU added")
+	return newcpu, nil
 }
 
 func (r *mutationResolver) RemoveCPU(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.CPU{})
+	log.Println("CPU Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateCPU(ctx context.Context, input model.UpdatedCPU) (*model.CPU, error) {
-	panic(fmt.Errorf("not implemented"))
+	updatedcpu = &model.CPU{
+		ID:         rand.Int(),
+		Name:       input.Name,
+		Company:    input.Company,
+		Cores:      input.Cores,
+		Clockspeed: input.Clockspeed,
+		Sockets:    input.Sockets,
+		Price:      input.Price,
+	}
 }
 
 //------------------------Storage Mutations-------------------------
@@ -129,7 +150,9 @@ func (r *mutationResolver) CreateStorage(ctx context.Context, input model.NewSto
 }
 
 func (r *mutationResolver) RemoveStorage(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.Storage{})
+	log.Println("Storage Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateStorage(ctx context.Context, input model.UpdatedStorage) (*model.Storage, error) {
@@ -142,7 +165,9 @@ func (r *mutationResolver) CreateMemory(ctx context.Context, input model.NewMemo
 }
 
 func (r *mutationResolver) RemoveMemory(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.Memory{})
+	log.Println("Memory Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateMemory(ctx context.Context, input model.UpdatedMemory) (*model.Memory, error) {
@@ -155,7 +180,9 @@ func (r *mutationResolver) CreatePowerSupply(ctx context.Context, input model.Ne
 }
 
 func (r *mutationResolver) RemovePowerSupply(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.PowerSupply{})
+	log.Println("Power Supply Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdatePowerSupply(ctx context.Context, input model.UpdatedPowerSupply) (*model.PowerSupply, error) {
@@ -168,7 +195,9 @@ func (r *mutationResolver) CreateGraphicCard(ctx context.Context, input model.Ne
 }
 
 func (r *mutationResolver) RemoveGraphicCard(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.GraphicsCard{})
+	log.Println("Graphics Card Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateGraphicCard(ctx context.Context, input model.UpdatedGraphicCard) (*model.GraphicsCard, error) {
@@ -181,7 +210,9 @@ func (r *mutationResolver) CreateCase(ctx context.Context, input model.NewCase) 
 }
 
 func (r *mutationResolver) RemoveCase(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.Case{})
+	log.Println("Case Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateCase(ctx context.Context, input model.UpdatedCase) (*model.Case, error) {
@@ -194,7 +225,9 @@ func (r *mutationResolver) CreateMonitor(ctx context.Context, input model.NewMon
 }
 
 func (r *mutationResolver) RemoveMonitor(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.Monitor{})
+	log.Println("CPU Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateMonitor(ctx context.Context, input model.UpdatedMonitor) (*model.Monitor, error) {
@@ -207,7 +240,9 @@ func (r *mutationResolver) CreateOperatingSystem(ctx context.Context, input mode
 }
 
 func (r *mutationResolver) RemoveOperatingSystem(ctx context.Context, input int) (bool, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.DB.Where("id = ?", input).Delete(&model.OperatingSystem{})
+	log.Println("CPU Deleted")
+	return true, nil
 }
 
 func (r *mutationResolver) UpdateOperatingSystem(ctx context.Context, input model.UpdatedOs) (*model.OperatingSystem, error) {
