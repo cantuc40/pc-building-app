@@ -13,6 +13,9 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph/model"
 )
 
+//---------------------------User Mutations----------------------------------------------------------
+
+//Create User
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	newuser := &model.User{
 		ID:       rand.Int(),
@@ -27,12 +30,14 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	return newuser, nil
 }
 
+//Remove User
 func (r *mutationResolver) RemoveUser(ctx context.Context, input int) (bool, error) {
 	r.DB.Where("id = ?", input).Delete(&model.User{})
 	log.Println("User Deleted")
 	return true, nil
 }
 
+//Update User
 func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdatedUser) (*model.User, error) {
 	updateduser := &model.User{
 		ID:       input.ID,
@@ -45,6 +50,9 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdatedUs
 	return updateduser, nil
 }
 
+//---------------------------------Motherboard Mutations-------------------------------------
+
+//Create Motherboard
 func (r *mutationResolver) CreateMotherboard(ctx context.Context, input model.NewMotherBoard) (*model.Motherboard, error) {
 	newmotherboard := &model.Motherboard{
 		ID:            rand.Int(),
@@ -65,12 +73,14 @@ func (r *mutationResolver) CreateMotherboard(ctx context.Context, input model.Ne
 	return newmotherboard, nil
 }
 
+//Remove Motherboard
 func (r *mutationResolver) RemoveMotherboard(ctx context.Context, input int) (bool, error) {
 	r.DB.Where("id = ?", input).Delete(&model.Motherboard{})
 	log.Println("Motherboard Deleted")
 	return true, nil
 }
 
+//Update Motherboard
 func (r *mutationResolver) UpdateMotherboard(ctx context.Context, input *model.UpdatedMotherboard) (*model.Motherboard, error) {
 	updatedmotherboard := &model.Motherboard{
 		ID:            input.ID,
@@ -101,6 +111,9 @@ func (r *mutationResolver) UpdateMotherboard(ctx context.Context, input *model.U
 	return updatedmotherboard, nil
 }
 
+//----------------------------CPU Mutations--------------------------------------
+
+//Create CPU
 func (r *mutationResolver) CreateCPU(ctx context.Context, input model.NewCPU) (*model.CPU, error) {
 	newcpu := &model.CPU{
 		ID:         rand.Int(),
@@ -116,12 +129,14 @@ func (r *mutationResolver) CreateCPU(ctx context.Context, input model.NewCPU) (*
 	return newcpu, nil
 }
 
+//Remove CPU
 func (r *mutationResolver) RemoveCPU(ctx context.Context, input int) (bool, error) {
 	r.DB.Where("id = ?", input).Delete(&model.CPU{})
 	log.Println("CPU Deleted")
 	return true, nil
 }
 
+//Update CPU
 func (r *mutationResolver) UpdateCPU(ctx context.Context, input model.UpdatedCPU) (*model.CPU, error) {
 	updatedcpu := &model.CPU{
 		ID:         rand.Int(),
@@ -144,6 +159,8 @@ func (r *mutationResolver) UpdateCPU(ctx context.Context, input model.UpdatedCPU
 
 	return updatedcpu, nil
 }
+
+//----------------------------Storage Mutations--------------------------------------
 
 func (r *mutationResolver) CreateStorage(ctx context.Context, input model.NewStorage) (*model.Storage, error) {
 	newstorage := &model.Storage{
@@ -190,6 +207,8 @@ func (r *mutationResolver) UpdateStorage(ctx context.Context, input model.Update
 	return newstorage, nil
 }
 
+//----------------------------Memory Mutations--------------------------------------
+
 func (r *mutationResolver) CreateMemory(ctx context.Context, input model.NewMemory) (*model.Memory, error) {
 	newmemory := &model.Memory{
 		ID:             rand.Int(),
@@ -234,6 +253,8 @@ func (r *mutationResolver) UpdateMemory(ctx context.Context, input model.Updated
 	return updatememory, nil
 }
 
+//----------------------------Power Supply Mutations--------------------------------------
+
 func (r *mutationResolver) CreatePowerSupply(ctx context.Context, input model.NewPowerSupply) (*model.PowerSupply, error) {
 	newpowersupply := &model.PowerSupply{
 		ID:         rand.Int(),
@@ -274,6 +295,8 @@ func (r *mutationResolver) UpdatePowerSupply(ctx context.Context, input model.Up
 
 	return updatepowersupply, nil
 }
+
+//----------------------------Graphic Card Mutations--------------------------------------
 
 func (r *mutationResolver) CreateGraphicCard(ctx context.Context, input model.NewGraphicCard) (*model.GraphicsCard, error) {
 	newgraphicscard := &model.GraphicsCard{
@@ -319,6 +342,8 @@ func (r *mutationResolver) UpdateGraphicCard(ctx context.Context, input model.Up
 	return updategraphicscard, nil
 }
 
+//----------------------------Case Mutations--------------------------------------
+
 func (r *mutationResolver) CreateCase(ctx context.Context, input model.NewCase) (*model.Case, error) {
 	newcase := &model.Case{
 		ID:       rand.Int(),
@@ -360,6 +385,8 @@ func (r *mutationResolver) UpdateCase(ctx context.Context, input model.UpdatedCa
 	return updatecase, nil
 }
 
+//----------------------------Monitor Mutations--------------------------------------
+
 func (r *mutationResolver) CreateMonitor(ctx context.Context, input model.NewMonitor) (*model.Monitor, error) {
 	newmonitor := &model.Monitor{
 		ID:         rand.Int(),
@@ -399,6 +426,8 @@ func (r *mutationResolver) UpdateMonitor(ctx context.Context, input model.Update
 	})
 	return updatemonitor, nil
 }
+
+//----------------------------Operating System Mutations--------------------------------------
 
 func (r *mutationResolver) CreateOperatingSystem(ctx context.Context, input model.NewOs) (*model.OperatingSystem, error) {
 	newOS := &model.OperatingSystem{
@@ -444,35 +473,35 @@ func (r *queryResolver) User(ctx context.Context, id int) (*model.User, error) {
 }
 
 func (r *queryResolver) Motherboards(ctx context.Context) ([]*model.Motherboard, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.motherboards, nil
 }
 
 func (r *queryResolver) Cpus(ctx context.Context) ([]*model.CPU, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.cpus, nil
 }
 
 func (r *queryResolver) Storages(ctx context.Context) ([]*model.Storage, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.storages, nil
 }
 
 func (r *queryResolver) Memories(ctx context.Context) ([]*model.Memory, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.memories, nil
 }
 
 func (r *queryResolver) PowerSupplies(ctx context.Context) ([]*model.PowerSupply, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.powersupplies, nil
 }
 
 func (r *queryResolver) GraphicsCards(ctx context.Context) ([]*model.GraphicsCard, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.graphiccards, nil
 }
 
 func (r *queryResolver) Cases(ctx context.Context) ([]*model.Case, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.cases, nil
 }
 
 func (r *queryResolver) Monitors(ctx context.Context) ([]*model.Monitor, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.monitors, nil
 }
 
 func (r *queryResolver) OperatingSystems(ctx context.Context) ([]*model.OperatingSystem, error) {
