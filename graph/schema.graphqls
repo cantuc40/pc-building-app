@@ -1,0 +1,380 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+
+#Mutation Schema
+type Mutation {
+  createUser            (input: NewUser!):            User!
+  RemoveUser            (input: Int!):                Boolean!
+  UpdateUser            (input: UpdatedUser!):        User!
+
+  createMotherboard     (input: NewMotherBoard!):     Motherboard!
+  RemoveMotherboard     (input: Int!):                Boolean!
+  UpdateMotherboard     (input: UpdatedMotherboard):  Motherboard!
+
+  createCPU             (input: NewCPU!):             CPU!
+  RemoveCPU             (input: Int!):                Boolean!
+  UpdateCPU             (input: UpdatedCPU!):         CPU!
+
+  createStorage         (input: NewStorage!):         Storage!
+  RemoveStorage         (input: Int!):                Boolean!
+  UpdateStorage         (input: UpdatedStorage!):     Storage!
+
+  createMemory          (input: NewMemory!):          Memory!
+  RemoveMemory          (input: Int!):                Boolean!
+  UpdateMemory          (input: UpdatedMemory!):      Memory!
+
+  createPowerSupply     (input: NewPowerSupply!):     PowerSupply!
+  RemovePowerSupply     (input: Int!):                Boolean!
+  UpdatePowerSupply     (input: UpdatedPowerSupply!): PowerSupply!
+
+  createGraphicCard     (input: NewGraphicCard!):     GraphicsCard!
+  RemoveGraphicCard     (input: Int!):                Boolean!
+  UpdateGraphicCard     (input: UpdatedGraphicCard!): GraphicsCard!
+
+  createCase            (input: NewCase!):            Case!
+  RemoveCase            (input: Int!):                Boolean!
+  UpdateCase            (input: UpdatedCase!):        Case!
+  
+  createMonitor         (input: NewMonitor!):         Monitor!
+  RemoveMonitor         (input: Int!):                Boolean!
+  UpdateMonitor         (input: UpdatedMonitor!):     Monitor!
+
+  createOperatingSystem (input: NewOS!):              OperatingSystem!
+  RemoveOperatingSystem (input: Int!):                Boolean!
+  UpdateOperatingSystem (input: UpdatedOS!):          OperatingSystem!
+
+}
+
+
+
+#Query Schema
+type Query {
+  users: [User!]!
+  user(id: Int!): User!
+  motherboards: [Motherboard!]!
+  cpus: [CPU!]!
+  storages: [Storage!]!
+  memories: [Memory!]!
+  power_supplies: [PowerSupply!]!
+  graphics_cards: [GraphicsCard!]!
+  cases: [Case!]!
+  monitors: [Monitor!]!
+  operating_systems: [OperatingSystem!]!
+}
+
+
+#--------------------Object Schemas------------------------------------------------------
+type User {
+  id: Int!
+  username: String!
+  password: String!
+  email: String!
+  pc_collection_id: Int!
+  #pcs: [PC!]
+}
+
+type PC {
+  name: String!
+  id: Int!
+#  motherboard_id: Motherboard!
+#  cpu: CPU!
+#  ram: Memory!
+#  storage: Storage!
+#  powersupply: PowerSupply!
+#  graphic_card: GraphicsCard!
+#  case: Case!
+#  monitor: Monitor!
+#  operating_system: OperatingSystem!
+#  cost: Float!
+
+}
+
+type Motherboard  {
+  id: Int!
+  name: String!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+  #users: [User!]
+}
+
+type CPU {
+  id: Int!
+  name: String!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+  #users: [User!]
+}
+
+type Storage {
+  id: Int!
+  name: String!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+  #users: [User!]
+}
+
+type Memory {
+  id: Int!
+  name: String!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+  #users: [User!]
+}
+
+type PowerSupply {
+  id: Int!
+  name: String!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+  #users: [User!]
+}
+
+type GraphicsCard {
+  id: Int!
+  name: String!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+  #users: [User!]
+}
+
+type Case {
+  id: Int!
+  name: String!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+  #users: [User!]
+}
+
+type Monitor {
+  id: Int!
+  name: String!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+  #users: [User!]
+}
+
+type OperatingSystem {
+  id: Int!
+  name: String!
+  company: String
+  price: Int!
+  #users: [User!]
+}
+
+#-------------------------------Inputs----------------------------------------------------------------------------------------
+input NewUser {
+  username: String!
+  password: String!
+  email: String!
+}
+
+input UpdatedUser {
+  id: Int!
+  username: String!
+  password: String!
+  email: String!
+}
+
+
+
+input NewMotherBoard{
+  name: String!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+
+}
+input UpdatedMotherboard {
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  sockets: Int!
+  chipsets: Int!
+  pci_slots: Int!
+  ram_slots: Int!
+  internal_ports: Int!
+  external_ports: Int!
+  price: Float!
+
+}
+
+
+input NewCPU {
+  name: String!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+input UpdatedCPU {
+  name: String!
+  id: Int!
+  company: String
+  cores: Int!
+  clockspeed: String!
+  sockets: Int!
+  price: Float!
+
+}
+
+
+input NewStorage {
+  name: String!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+input UpdatedStorage {
+  name: String!
+  id: Int!
+  company: String
+  format: String!
+  capacity: String!
+  speed: String!
+  price: Float!
+
+}
+
+
+input NewMemory {
+  name: String!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+input UpdatedMemory {
+  name: String!
+  id: Int!
+  company: String
+  frequency: String!
+  cas_latency: String!
+  memory_channels: String!
+  price: Float!
+
+}
+
+
+input NewPowerSupply{
+  name: String!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+input UpdatedPowerSupply{
+  name: String!
+  id: Int!
+  company: String
+  form_factor: String!
+  modularity: String!
+  price: Float!
+}
+
+input NewGraphicCard{
+  name: String!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+input UpdatedGraphicCard{
+  name: String!
+  id: Int!
+  company: String
+  gpu: String!
+  memory: Int!
+  core_clock: String!
+  price: Float!
+}
+
+input NewCase{
+  name: String!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+input UpdatedCase{
+  name: String!
+  id: Int!
+  company: String
+  windowed: Boolean
+  material: String!
+  price: Float!
+
+}
+
+input NewMonitor{
+  name: String!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+input UpdatedMonitor{
+  name: String!
+  id: Int!
+  company: String
+  resolution: String!
+  hz: Int!
+  price: Float!
+}
+
+input NewOS{
+  name: String!
+  company: String
+  price: Int!
+}
+input UpdatedOS{
+  name: String!
+  id: Int!
+  company: String
+  price: Int!
+}
+
+
+
