@@ -20,12 +20,11 @@ const defaultPort = "8083"
 
 var db *gorm.DB
 
-//admin
-//Admin123$#45
-
 func initDB() {
 	var err error
-	dataSourceName := "admin:Admin123$#45@tcp(localhost:3306)/?parseTime=True"
+
+	//For dataSourceName, change admin to your mysql username and Admin for the password
+	dataSourceName := "admin:Admin@tcp(localhost:3306)/?parseTime=True"
 	db, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 
 	if err != nil {
