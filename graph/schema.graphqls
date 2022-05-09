@@ -45,6 +45,10 @@ type Mutation {
   RemoveOperatingSystem (input: Int!):                Boolean!
   UpdateOperatingSystem (input: UpdatedOS!):          OperatingSystem!
 
+  createPC              (input: NewPC!):              PC!
+  RemovePC              (input: Int!):                Boolean!
+  UpdatePC              (input: UpdatedPC!):          PC!
+
 }
 
 
@@ -52,7 +56,7 @@ type Mutation {
 #Query Schema
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  user: (id: Int!): User!
   motherboards: [Motherboard!]!
   cpus: [CPU!]!
   storages: [Storage!]!
@@ -78,16 +82,16 @@ type User {
 type PC {
   name: String!
   id: Int!
-#  motherboard_id: Motherboard!
-#  cpu: CPU!
-#  ram: Memory!
-#  storage: Storage!
-#  powersupply: PowerSupply!
-#  graphic_card: GraphicsCard!
-#  case: Case!
-#  monitor: Monitor!
-#  operating_system: OperatingSystem!
-#  cost: Float!
+  motherboard_id: Motherboard!
+  cpu_id: CPU!
+  ram_id: Memory!
+  storage_id: Storage!
+  powersupply_id: PowerSupply!
+  graphic_card_id: GraphicsCard!
+  case_id: Case!
+  monitor_id: Monitor!
+  operating_system_id: OperatingSystem!
+  cost: Float!
 
 }
 
@@ -375,6 +379,24 @@ input UpdatedOS{
   company: String
   price: Int!
 }
+
+input newPC{
+  name: String!
+  motherboard_id: type Query {
+      motherboard: (input: Int!): Motherboard!
+  }
+  cpu_id: CPU!
+  ram_id: Memory!
+  storage_id: Storage!
+  powersupply_id: PowerSupply!
+  graphic_card_id: GraphicsCard!
+  case_id: Case!
+  monitor_id: Monitor!
+  operating_system_id: OperatingSystem!
+  cost: Float!
+}
+
+
 
 
 

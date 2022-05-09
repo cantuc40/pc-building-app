@@ -2,13 +2,12 @@ import {Component} from 'react';
 
 
 
-
-export default class Main extends Component {
+export default class partsDB extends Component {
 
     render(){
         return (
             <div>
-                main
+                
             </div>
         )
     }

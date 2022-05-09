@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import {Link} from 'react-router-dom';
 
 
 
@@ -8,9 +7,11 @@ export default class FooterBar extends Component {
 
     render(){
         return (
-            <div>
-                
-            </div>
+            <nav>
+                <div>
+                    <p>&copy; 2022</p>
+                </div>
+            </nav>
         )
     }
 }

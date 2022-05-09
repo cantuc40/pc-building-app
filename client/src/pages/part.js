@@ -1,8 +1,11 @@
 import {Component} from 'react';
-import {Link} from 'react-router-dom';
+import { useQuery, gql } from "@apollo/client";
 
+const PART_QUERY = gql
+  `{
 
-
+  }
+`;
 
 export default class Part extends Component {
 

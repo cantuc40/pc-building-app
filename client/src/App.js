@@ -11,6 +11,7 @@ import Part from './pages/part';
 import Parts from './pages/parts';
 import PC from './pages/pc';
 import PCS from './pages/pcs';
+import partsDB from './pages/partsDB';
 
 
 
@@ -23,9 +24,15 @@ function App() {
         <Route path='/pcs' element={<PCS/>} />
         <Route path='/pcs/:id' element={<PC/>} />
         <Route path='/pcs/newpc' element={<NewPC/>} />
-        <Route path='/parts' element={<Parts/>} />
-        <Route path='/parts/:id' element={<Part/>} />
+
+
+        <Route path='/parts' element={<partsDB/>} />
         <Route path='/parts/newpart' element={<NewPart/>} />
+        <Route path='/parts/:partname' element={<Parts/> } />
+        <Route path='/parts/:partname/:id' element={<Part/> } />
+        <Route path='/parts/:partname/new' element={<newSpecificPart/> } />
+
+
       </Routes>
       <FooterBar/>
     </div>
