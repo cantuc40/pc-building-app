@@ -1,5 +1,15 @@
 version: '3.3'
 services:
+  pcBuilder_back:
+    image: golang_graphql
+    build: ./
+    ports:
+      - "8083:8083"
+    networks:
+      - pcb-app
+    depends_on:
+      - pcBuilder_db
+
   pcBuilder_db:
     image: mysql:5.7
     restart: always
@@ -20,6 +30,11 @@ services:
       # Where our data will be persisted
     volumes:
       - pcb-db:/var/lib/mysql
+
+networks:
+  pcb-app:
+    driver: bridge
 # Names our volume
 volumes:
   pcb-db:
+    driver: local

@@ -1,0 +1,7 @@
+/.circleci
+/client
+.env
+.env.example
+.gitignore
+Makefile
+README.md
