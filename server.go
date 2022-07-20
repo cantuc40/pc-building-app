@@ -24,7 +24,7 @@ func initDB() {
 	var err error
 
 	//For dataSourceName, change admin to your mysql username and Admin for the password
-	dataSourceName := "admin:Admin@tcp(localhost:3306)/?parseTime=True"
+	dataSourceName := "admin:test@tcp(db:3306)/pcb_database"
 	db, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 
 	if err != nil {
