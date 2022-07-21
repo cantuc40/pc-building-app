@@ -12,11 +12,10 @@ import (
 	"github.com/cantuc40/gqlgen-todos/graph"
 	"github.com/cantuc40/gqlgen-todos/graph/generated"
 	"github.com/cantuc40/gqlgen-todos/graph/model"
+	"github.com/rs/cors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
-const defaultPort = "8083"
 
 var db *gorm.DB
 
@@ -58,9 +57,10 @@ func initDB() {
 }
 
 func main() {
+
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = defaultPort
+		port = "8083"
 	}
 
 	initDB()
@@ -68,8 +68,11 @@ func main() {
 		DB: db,
 	}}))
 
+	handler := cors.Default().Handler(srv)
+
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
+	http.Handle("/cors", handler)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
